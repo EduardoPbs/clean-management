@@ -4,7 +4,6 @@ import br.com.lgmanagement.lgManagement.infra.persistence.movimentacao.Movimenta
 import jakarta.persistence.*;
 import lombok.EqualsAndHashCode;
 import org.hibernate.annotations.UpdateTimestamp;
-import org.springframework.cglib.core.Local;
 import org.springframework.data.annotation.CreatedDate;
 
 import java.math.BigDecimal;

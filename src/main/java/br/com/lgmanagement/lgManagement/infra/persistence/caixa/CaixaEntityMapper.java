@@ -3,8 +3,6 @@ package br.com.lgmanagement.lgManagement.infra.persistence.caixa;
 import br.com.lgmanagement.lgManagement.domain.entities.caixa.Caixa;
 import br.com.lgmanagement.lgManagement.domain.entities.movimentacao.Movimentacao;
 import br.com.lgmanagement.lgManagement.infra.persistence.movimentacao.MovimentacaoEntityMapper;
-import org.springframework.http.HttpStatus;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
 import java.util.List;

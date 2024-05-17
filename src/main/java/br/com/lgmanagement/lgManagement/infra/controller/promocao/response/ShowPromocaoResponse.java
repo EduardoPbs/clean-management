@@ -2,7 +2,6 @@ package br.com.lgmanagement.lgManagement.infra.controller.promocao.response;
 
 import br.com.lgmanagement.lgManagement.domain.entities.promocao.Promocao;
 import br.com.lgmanagement.lgManagement.infra.controller.produto.response.ShowProdutoResponse;
-import br.com.lgmanagement.lgManagement.infra.persistence.produto.ProdutoEntity;
 import br.com.lgmanagement.lgManagement.infra.persistence.produto.ProdutoEntityMapper;
 import com.fasterxml.jackson.annotation.JsonProperty;
 

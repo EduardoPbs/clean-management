@@ -76,14 +76,10 @@ public class FuncionarioConfig {
 
     @Bean
     FuncionarioDtoMapper funcionarioDtoMapper(
-            FuncionarioEntityMapper funcionarioEntityMapper,
-            UsuarioEntityMapper usuarioEntityMapper,
-            TransacaoEntityMapper transacaoEntityMapper
+            FuncionarioEntityMapper funcionarioEntityMapper
     ) {
         return new FuncionarioDtoMapper(
-                funcionarioEntityMapper,
-                usuarioEntityMapper,
-                transacaoEntityMapper
+                funcionarioEntityMapper
         );
     }
 }

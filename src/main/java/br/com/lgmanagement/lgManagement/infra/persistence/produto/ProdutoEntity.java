@@ -3,7 +3,6 @@ package br.com.lgmanagement.lgManagement.infra.persistence.produto;
 import br.com.lgmanagement.lgManagement.domain.entities.Categoria;
 import br.com.lgmanagement.lgManagement.infra.persistence.interfaces.iproduto.IProdutoEntity;
 import br.com.lgmanagement.lgManagement.infra.persistence.promocao.PromocaoEntity;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.EqualsAndHashCode;
 import org.springframework.http.HttpStatus;

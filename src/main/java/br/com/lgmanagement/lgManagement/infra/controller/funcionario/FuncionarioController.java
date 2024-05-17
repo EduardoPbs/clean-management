@@ -1,15 +1,12 @@
 package br.com.lgmanagement.lgManagement.infra.controller.funcionario;
 
 import br.com.lgmanagement.lgManagement.application.usecases.funcionario.*;
-import br.com.lgmanagement.lgManagement.domain.entities.Endereco;
 import br.com.lgmanagement.lgManagement.domain.entities.funcionario.Funcionario;
 import br.com.lgmanagement.lgManagement.domain.entities.funcionario.FuncionarioBuilder;
-import br.com.lgmanagement.lgManagement.domain.entities.usuario.Usuario;
 import br.com.lgmanagement.lgManagement.infra.controller.funcionario.request.CreateFuncionarioRequest;
 import br.com.lgmanagement.lgManagement.infra.controller.funcionario.request.UpdateFuncionarioRequest;
 import br.com.lgmanagement.lgManagement.infra.controller.funcionario.response.ShowFuncionarioResponse;
 import br.com.lgmanagement.lgManagement.infra.persistence.funcionario.FuncionarioDtoMapper;
-import br.com.lgmanagement.lgManagement.infra.persistence.funcionario.FuncionarioEntityMapper;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,7 +20,6 @@ import java.util.stream.Collectors;
 public class FuncionarioController {
 
     private final FuncionarioDtoMapper funcionarioDtoMapper;
-    private final FuncionarioEntityMapper funcionarioEntityMapper;
     private final CreateFuncionarioInteractor createFuncionarioInteractor;
     private final ShowAllFuncionariosInteractor showAllFuncionariosInteractor;
     private final UpdateFuncionarioInteractor updateFuncionarioInteractor;
@@ -32,7 +28,6 @@ public class FuncionarioController {
 
     public FuncionarioController(
             FuncionarioDtoMapper funcionarioDtoMapper,
-            FuncionarioEntityMapper funcionarioEntityMapper,
             CreateFuncionarioInteractor createFuncionarioInteractor,
             ShowAllFuncionariosInteractor showAllFuncionariosInteractor,
             UpdateFuncionarioInteractor updateFuncionarioInteractor,
@@ -40,7 +35,6 @@ public class FuncionarioController {
             ShowOneFuncionarioInteractor showOneFuncionarioInteractor
     ) {
         this.funcionarioDtoMapper = funcionarioDtoMapper;
-        this.funcionarioEntityMapper = funcionarioEntityMapper;
         this.createFuncionarioInteractor = createFuncionarioInteractor;
         this.showAllFuncionariosInteractor = showAllFuncionariosInteractor;
         this.updateFuncionarioInteractor = updateFuncionarioInteractor;

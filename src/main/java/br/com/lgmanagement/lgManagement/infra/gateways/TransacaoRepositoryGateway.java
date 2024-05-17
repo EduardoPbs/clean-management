@@ -15,7 +15,6 @@ import br.com.lgmanagement.lgManagement.infra.persistence.item.ItemRepository;
 import br.com.lgmanagement.lgManagement.infra.persistence.produto.ProdutoEntity;
 import br.com.lgmanagement.lgManagement.infra.persistence.produto.ProdutoEntityMapper;
 import br.com.lgmanagement.lgManagement.infra.persistence.produto.ProdutoRepository;
-import br.com.lgmanagement.lgManagement.infra.persistence.promocao.PromocaoEntity;
 import br.com.lgmanagement.lgManagement.infra.persistence.transacao.TransacaoEntity;
 import br.com.lgmanagement.lgManagement.infra.persistence.transacao.TransacaoEntityMapper;
 import br.com.lgmanagement.lgManagement.infra.persistence.transacao.TransacaoRepository;

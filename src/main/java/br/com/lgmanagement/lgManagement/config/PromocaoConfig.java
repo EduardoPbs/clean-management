@@ -55,13 +55,11 @@ public class PromocaoConfig {
     PromocaoRepositoryGateway promocaoRepositoryGateway(
             PromocaoEntityMapper promocaoEntityMapper,
             ProdutoRepository produtoRepository,
-            ProdutoEntityMapper produtoEntityMapper,
             PromocaoRepository promocaoRepository
     ) {
         return new PromocaoRepositoryGateway(
                 promocaoEntityMapper,
                 produtoRepository,
-                produtoEntityMapper,
                 promocaoRepository
         );
     }

@@ -3,7 +3,6 @@ package br.com.lgmanagement.lgManagement.infra.persistence.transacao;
 import br.com.lgmanagement.lgManagement.domain.entities.TransacaoStatus;
 import br.com.lgmanagement.lgManagement.domain.entities.TransacaoType;
 import br.com.lgmanagement.lgManagement.infra.persistence.funcionario.FuncionarioEntity;
-import br.com.lgmanagement.lgManagement.infra.persistence.item.ItemEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;

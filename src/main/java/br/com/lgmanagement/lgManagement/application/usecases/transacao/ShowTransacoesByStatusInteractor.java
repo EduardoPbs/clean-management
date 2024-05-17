@@ -1,6 +1,5 @@
 package br.com.lgmanagement.lgManagement.application.usecases.transacao;
 
-import br.com.lgmanagement.lgManagement.application.gateways.produto.ProdutoGateway;
 import br.com.lgmanagement.lgManagement.application.gateways.transacao.TransacaoGateway;
 import br.com.lgmanagement.lgManagement.domain.entities.TransacaoStatus;
 import br.com.lgmanagement.lgManagement.domain.entities.transacao.Transacao;

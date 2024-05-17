@@ -6,23 +6,15 @@ import br.com.lgmanagement.lgManagement.domain.entities.Endereco;
 import br.com.lgmanagement.lgManagement.domain.entities.funcionario.Funcionario;
 import br.com.lgmanagement.lgManagement.infra.controller.funcionario.request.UpdateFuncionarioRequest;
 import br.com.lgmanagement.lgManagement.infra.controller.funcionario.response.ShowFuncionarioResponse;
-import br.com.lgmanagement.lgManagement.infra.persistence.usuario.UsuarioEntityMapper;
-import br.com.lgmanagement.lgManagement.infra.persistence.transacao.TransacaoEntityMapper;
 
 public class FuncionarioDtoMapper {
 
     private final FuncionarioEntityMapper funcionarioEntityMapper;
-    private final UsuarioEntityMapper usuarioEntityMapper;
-    private final TransacaoEntityMapper transacaoEntityMapper;
 
     public FuncionarioDtoMapper(
-            FuncionarioEntityMapper funcionarioEntityMapper,
-            UsuarioEntityMapper usuarioEntityMapper,
-            TransacaoEntityMapper transacaoEntityMapper
+            FuncionarioEntityMapper funcionarioEntityMapper
     ) {
         this.funcionarioEntityMapper = funcionarioEntityMapper;
-        this.usuarioEntityMapper = usuarioEntityMapper;
-        this.transacaoEntityMapper = transacaoEntityMapper;
     }
 
     public ShowFuncionarioResponse toResponse(Funcionario funcionario) {

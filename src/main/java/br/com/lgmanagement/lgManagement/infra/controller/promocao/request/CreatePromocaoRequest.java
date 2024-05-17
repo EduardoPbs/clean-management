@@ -1,8 +1,6 @@
 package br.com.lgmanagement.lgManagement.infra.controller.promocao.request;
 
-import br.com.lgmanagement.lgManagement.domain.entities.promocao.Promocao;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import jakarta.validation.constraints.AssertTrue;
 import jakarta.validation.constraints.FutureOrPresent;
 import jakarta.validation.constraints.NotNull;
 

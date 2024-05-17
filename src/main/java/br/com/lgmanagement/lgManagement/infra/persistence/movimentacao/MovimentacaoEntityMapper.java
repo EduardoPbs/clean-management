@@ -2,7 +2,6 @@ package br.com.lgmanagement.lgManagement.infra.persistence.movimentacao;
 
 import br.com.lgmanagement.lgManagement.domain.entities.caixa.Caixa;
 import br.com.lgmanagement.lgManagement.domain.entities.movimentacao.Movimentacao;
-import br.com.lgmanagement.lgManagement.infra.persistence.caixa.CaixaEntity;
 
 public class MovimentacaoEntityMapper {
 

@@ -5,7 +5,6 @@ import br.com.lgmanagement.lgManagement.domain.entities.caixa.Caixa;
 import br.com.lgmanagement.lgManagement.domain.entities.movimentacao.Movimentacao;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
 import java.util.List;
 
 public interface MovimentacaoGateway {

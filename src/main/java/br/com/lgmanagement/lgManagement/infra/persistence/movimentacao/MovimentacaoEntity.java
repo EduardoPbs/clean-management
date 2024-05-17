@@ -1,8 +1,6 @@
 package br.com.lgmanagement.lgManagement.infra.persistence.movimentacao;
 
-import br.com.lgmanagement.lgManagement.domain.entities.caixa.Caixa;
 import br.com.lgmanagement.lgManagement.infra.persistence.caixa.CaixaEntity;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;

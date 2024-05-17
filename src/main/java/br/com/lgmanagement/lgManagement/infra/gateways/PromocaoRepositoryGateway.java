@@ -1,10 +1,8 @@
 package br.com.lgmanagement.lgManagement.infra.gateways;
 
 import br.com.lgmanagement.lgManagement.application.gateways.promocao.PromocaoGateway;
-import br.com.lgmanagement.lgManagement.domain.entities.produto.Produto;
 import br.com.lgmanagement.lgManagement.domain.entities.promocao.Promocao;
 import br.com.lgmanagement.lgManagement.infra.persistence.produto.ProdutoEntity;
-import br.com.lgmanagement.lgManagement.infra.persistence.produto.ProdutoEntityMapper;
 import br.com.lgmanagement.lgManagement.infra.persistence.produto.ProdutoRepository;
 import br.com.lgmanagement.lgManagement.infra.persistence.promocao.PromocaoEntity;
 import br.com.lgmanagement.lgManagement.infra.persistence.promocao.PromocaoEntityMapper;
@@ -24,18 +22,15 @@ public class PromocaoRepositoryGateway implements PromocaoGateway {
 
     private final PromocaoEntityMapper promocaoEntityMapper;
     private final ProdutoRepository produtoRepository;
-    private final ProdutoEntityMapper produtoEntityMapper;
     private final PromocaoRepository promocaoRepository;
 
     public PromocaoRepositoryGateway(
             PromocaoEntityMapper promocaoEntityMapper,
             ProdutoRepository produtoRepository,
-            ProdutoEntityMapper produtoEntityMapper,
             PromocaoRepository promocaoRepository
     ) {
         this.promocaoEntityMapper = promocaoEntityMapper;
         this.produtoRepository = produtoRepository;
-        this.produtoEntityMapper = produtoEntityMapper;
         this.promocaoRepository = promocaoRepository;
     }
 

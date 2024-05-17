@@ -1,7 +1,6 @@
 package br.com.lgmanagement.lgManagement.infra.controller.produto.response;
 
 import br.com.lgmanagement.lgManagement.domain.entities.Categoria;
-import br.com.lgmanagement.lgManagement.domain.entities.produto.Produto;
 import br.com.lgmanagement.lgManagement.infra.persistence.produto.ProdutoEntity;
 
 import java.math.BigDecimal;

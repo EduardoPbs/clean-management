@@ -11,7 +11,6 @@ import br.com.lgmanagement.lgManagement.infra.persistence.movimentacao.Movimenta
 import br.com.lgmanagement.lgManagement.infra.persistence.movimentacao.MovimentacaoEntityMapper;
 import br.com.lgmanagement.lgManagement.infra.persistence.movimentacao.MovimentacaoRepository;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.math.BigDecimal;

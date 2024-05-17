@@ -1,6 +1,5 @@
 package br.com.lgmanagement.lgManagement.application.gateways.promocao;
 
-import br.com.lgmanagement.lgManagement.domain.entities.produto.Produto;
 import br.com.lgmanagement.lgManagement.domain.entities.promocao.Promocao;
 
 import java.math.BigDecimal;

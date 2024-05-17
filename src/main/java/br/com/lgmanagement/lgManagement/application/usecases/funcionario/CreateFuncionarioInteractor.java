@@ -1,6 +1,5 @@
 package br.com.lgmanagement.lgManagement.application.usecases.funcionario;
 
-import br.com.lgmanagement.lgManagement.infra.controller.funcionario.request.CreateFuncionarioRequest;
 import br.com.lgmanagement.lgManagement.application.gateways.funcionario.FuncionarioGateway;
 import br.com.lgmanagement.lgManagement.domain.entities.funcionario.Funcionario;
 
