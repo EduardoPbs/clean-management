@@ -94,7 +94,7 @@ public class ProdutoController {
     }
 
     @PatchMapping("/restore/{id}")
-    public ResponseEntity restoreCommodity(@PathVariable("id") String id) {
+    public ResponseEntity<HttpStatus> restoreCommodity(@PathVariable("id") String id) {
         restoreProdutoInteractor.activeProduto(id);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }

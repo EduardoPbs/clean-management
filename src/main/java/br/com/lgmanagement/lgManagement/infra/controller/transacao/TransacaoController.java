@@ -94,7 +94,7 @@ public class TransacaoController {
     }
 
     @PostMapping("/procurements")
-    public ResponseEntity registerProcurement(@RequestBody @Valid CreateTransacaoRequest createTransacaoRequest) {
+    public ResponseEntity<String> registerProcurement(@RequestBody @Valid CreateTransacaoRequest createTransacaoRequest) {
         List<Item> itens = requestItemToDomain(createTransacaoRequest.itens());
         /**
          * Adicionar reposicao de estoque de produtos.
@@ -239,7 +239,7 @@ public class TransacaoController {
     }
 
     @PutMapping("/finalize/{id}")
-    public ResponseEntity finalizeTransaction(@PathVariable("id") String id) {
+    public ResponseEntity<String> finalizeTransaction(@PathVariable("id") String id) {
         finishTransactionInteractor.finalizeTransaction(id);
         return ResponseEntity.status(HttpStatus.OK).body("Transação finalizada com sucesso.");
     }

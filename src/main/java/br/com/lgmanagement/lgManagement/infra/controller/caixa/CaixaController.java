@@ -54,7 +54,7 @@ public class CaixaController {
     }
 
     @GetMapping("/current")
-    public ResponseEntity showCurrentCashier() {
+    public ResponseEntity<ShowCaixaResponse> showCurrentCashier() {
         return ResponseEntity.status(HttpStatus.OK)
                 .body(new ShowCaixaResponse(showCaixaInteractor.showCaixa()));
     }
@@ -122,7 +122,7 @@ public class CaixaController {
 
 
     @PostMapping("/movement/{type}")
-    public ResponseEntity registerMovement(
+    public ResponseEntity<String> registerMovement(
             @RequestBody @Valid RegisterMovementRequest registerMovementRequest,
             @PathVariable("type") TransacaoType transacaoType
     ) {
