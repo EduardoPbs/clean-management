@@ -1,5 +1,7 @@
 package br.com.lgmanagement.lgManagement.config;
 
+import br.com.lgmanagement.lgManagement.application.facades.transacoes.CreateTransactionFacade;
+import br.com.lgmanagement.lgManagement.application.facades.transacoes.ShowTransactionsFacade;
 import br.com.lgmanagement.lgManagement.application.gateways.transacao.TransacaoGateway;
 import br.com.lgmanagement.lgManagement.application.usecases.transacao.*;
 import br.com.lgmanagement.lgManagement.infra.gateways.CaixaRepositoryGateway;
@@ -71,13 +73,42 @@ public class TransacaoConfig {
     }
 
     @Bean
-    FindTransacoesByDateInteractor findTransacoesByDateInteractor(TransacaoGateway transacaoGateway) {
-        return new FindTransacoesByDateInteractor(transacaoGateway);
+    ShowTransacoesByDateInteractor findTransacoesByDateInteractor(TransacaoGateway transacaoGateway) {
+        return new ShowTransacoesByDateInteractor(transacaoGateway);
     }
 
     @Bean
-    FindTransacoesByMonthInteractor findTransacoesByMonthInteractor(TransacaoGateway transacaoGateway) {
-        return new FindTransacoesByMonthInteractor(transacaoGateway);
+    ShowTransacoesByMonthInteractor findTransacoesByMonthInteractor(TransacaoGateway transacaoGateway) {
+        return new ShowTransacoesByMonthInteractor(transacaoGateway);
+    }
+
+    @Bean
+    CreateTransactionFacade createTransactionFacade(
+            CreateTransacaoInteractor createTransacaoInteractor,
+            CreateScheduledTransacaoInteractor scheduledTransacaoInteractor
+    ) {
+        return new CreateTransactionFacade(createTransacaoInteractor, scheduledTransacaoInteractor);
+    }
+
+    @Bean
+    ShowTransactionsFacade transactionInteractors(
+            ShowAllTransacoesInteractor showAllTransacoesInteractor,
+            ShowTransacoesByFuncionarioIdInteractor showTransacoesByFuncionarioIdInteractor,
+            ShowOneTransacaoInteractor showTransactionsFacade,
+            ShowTransacoesByTypeInteractor showTransacoesByTypeInteractor,
+            ShowTransacoesByStatusInteractor showTransacoesByStatusInteractor,
+            ShowTransacoesByDateInteractor showTransacoesByDateInteractor,
+            ShowTransacoesByMonthInteractor showTransacoesByMonthInteractor
+    ) {
+        return new ShowTransactionsFacade(
+                showAllTransacoesInteractor,
+                showTransacoesByFuncionarioIdInteractor,
+                showTransactionsFacade,
+                showTransacoesByTypeInteractor,
+                showTransacoesByStatusInteractor,
+                showTransacoesByDateInteractor,
+                showTransacoesByMonthInteractor
+        );
     }
 
     @Bean
