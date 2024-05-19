@@ -1,5 +1,7 @@
 package br.com.lgmanagement.lgManagement.infra.controller.transacao;
 
+import br.com.lgmanagement.lgManagement.application.facades.transacoes.ShowTransactionsFacade;
+import br.com.lgmanagement.lgManagement.application.facades.transacoes.CreateTransactionFacade;
 import br.com.lgmanagement.lgManagement.application.usecases.transacao.*;
 import br.com.lgmanagement.lgManagement.domain.entities.TransacaoStatus;
 import br.com.lgmanagement.lgManagement.domain.entities.TransacaoType;
@@ -32,53 +34,32 @@ public class TransacaoController {
     private final ProdutoRepository produtoRepository;
     private final FuncionarioRepository funcionarioRepository;
     private final ProdutoEntityMapper produtoEntityMapper;
-    private final CreateTransacaoInteractor createTransacaoInteractor;
-    private final ShowAllTransacoesInteractor showAllTransacoesInteractor;
-    private final ShowTransacoesByFuncionarioIdInteractor showTransacoesByFuncionarioIdInteractor;
-    private final ShowOneTransacaoInteractor showOneTransacaoInteractor;
-    private final ShowTransacoesByTypeInteractor showTransacoesByTypeInteractor;
-    private final ShowTransacoesByStatusInteractor showTransacoesByStatusInteractor;
-    private final CreateScheduledTransacaoInteractor createScheduledTransacaoInteractor;
+    private final CreateTransactionFacade createTransactionFacade;
+    private final ShowTransactionsFacade showTransactionsFacade;
     private final FinishTransactionInteractor finishTransactionInteractor;
     private final ShowTransacaoItemsInteractor showTransacaoItemsInteractor;
-    private final FindTransacoesByDateInteractor findTransacoesByDateInteractor;
-    private final FindTransacoesByMonthInteractor findTransacoesByMonthInteractor;
 
     public TransacaoController(
             ProdutoRepository produtoRepository,
             FuncionarioRepository funcionarioRepository,
+            CreateTransactionFacade createTransactionFacade,
+            ShowTransactionsFacade showTransactionsFacade,
             ProdutoEntityMapper produtoEntityMapper,
-            CreateTransacaoInteractor createTransacaoInteractor,
-            ShowAllTransacoesInteractor showAllTransacoesInteractor,
-            ShowTransacoesByFuncionarioIdInteractor showTransacoesByFuncionarioIdInteractor,
-            ShowOneTransacaoInteractor showOneTransacaoInteractor,
-            ShowTransacoesByTypeInteractor showTransacoesByTypeInteractor,
-            ShowTransacoesByStatusInteractor showTransacoesByStatusInteractor,
-            CreateScheduledTransacaoInteractor createScheduledTransacaoInteractor,
             FinishTransactionInteractor finishTransactionInteractor,
-            ShowTransacaoItemsInteractor showTransacaoItemsInteractor,
-            FindTransacoesByDateInteractor findTransacoesByDateInteractor,
-            FindTransacoesByMonthInteractor findTransacoesByMonthInteractor
+            ShowTransacaoItemsInteractor showTransacaoItemsInteractor
     ) {
         this.produtoRepository = produtoRepository;
         this.funcionarioRepository = funcionarioRepository;
+        this.createTransactionFacade = createTransactionFacade;
+        this.showTransactionsFacade = showTransactionsFacade;
         this.produtoEntityMapper = produtoEntityMapper;
-        this.createTransacaoInteractor = createTransacaoInteractor;
-        this.showAllTransacoesInteractor = showAllTransacoesInteractor;
-        this.showTransacoesByFuncionarioIdInteractor = showTransacoesByFuncionarioIdInteractor;
-        this.showOneTransacaoInteractor = showOneTransacaoInteractor;
-        this.showTransacoesByTypeInteractor = showTransacoesByTypeInteractor;
-        this.showTransacoesByStatusInteractor = showTransacoesByStatusInteractor;
-        this.createScheduledTransacaoInteractor = createScheduledTransacaoInteractor;
         this.finishTransactionInteractor = finishTransactionInteractor;
         this.showTransacaoItemsInteractor = showTransacaoItemsInteractor;
-        this.findTransacoesByDateInteractor = findTransacoesByDateInteractor;
-        this.findTransacoesByMonthInteractor = findTransacoesByMonthInteractor;
     }
 
     @GetMapping
     public ResponseEntity<List<ShowTransacaoResponse>> showAllTransactions() {
-        List<ShowTransacaoResponse> transacaoResponses = showAllTransacoesInteractor.mostrarTransacoes()
+        List<ShowTransacaoResponse> transacaoResponses = showTransactionsFacade.all()
                 .stream().map(transacao -> {
                     FuncionarioEntity funcionarioEntity = funcionarioRepository
                             .findByCpf(transacao.getFuncionario().getCpf())
@@ -99,8 +80,8 @@ public class TransacaoController {
         /**
          * Adicionar reposicao de estoque de produtos.
          */
-        Transacao transacao = createTransacaoInteractor
-                .registrarTransacao(itens, createTransacaoRequest.funcionarioId(), TransacaoType.COMPRA);
+        Transacao transacao = createTransactionFacade
+                .create(itens, createTransacaoRequest.funcionarioId(), TransacaoType.COMPRA);
 
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body("Compra cadastrada com sucesso. " + transacao.getId());
@@ -109,8 +90,8 @@ public class TransacaoController {
     @PostMapping("/sales")
     public ResponseEntity<String> registerSale(@RequestBody @Valid CreateTransacaoRequest createTransacaoRequest) {
         List<Item> itens = requestItemToDomain(createTransacaoRequest.itens());
-        Transacao transacao = createTransacaoInteractor
-                .registrarTransacao(itens, createTransacaoRequest.funcionarioId(), TransacaoType.VENDA);
+        Transacao transacao = createTransactionFacade
+                .create(itens, createTransacaoRequest.funcionarioId(), TransacaoType.VENDA);
 
         // Só sera descontado do estoque quando a venda for FINALIZADA.
         return ResponseEntity.status(HttpStatus.CREATED)
@@ -123,8 +104,8 @@ public class TransacaoController {
                 .orElseThrow(() -> new ResponseStatusException(
                         HttpStatus.BAD_REQUEST, "Funcionário não encontrado."));
 
-        List<ShowTransacaoResponse> transacaoResponses = showTransacoesByFuncionarioIdInteractor
-                .mostrarTransacoesPorFuncionarioId(id)
+        List<ShowTransacaoResponse> transacaoResponses = showTransactionsFacade
+                .allByFuncionarioId(id)
                 .stream().map(transacao ->
                         new ShowTransacaoResponse(transacao, funcionarioEntity.getId(), produtoEntityMapper))
                 .collect(Collectors.toUnmodifiableList());
@@ -135,7 +116,7 @@ public class TransacaoController {
 
     @GetMapping("/{id}")
     public ResponseEntity<ShowTransacaoResponse> showSale(@PathVariable("id") String id) {
-        Transacao transacao = showOneTransacaoInteractor.mostrarTransacao(id);
+        Transacao transacao = showTransactionsFacade.viewById(id);
         FuncionarioEntity funcionarioEntity = funcionarioRepository.findByCpf(transacao.getFuncionario().getCpf())
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Funcionário não encontrado."));
         return ResponseEntity.status(HttpStatus.OK)
@@ -144,7 +125,7 @@ public class TransacaoController {
 
     @GetMapping("/month/{month}")
     public ResponseEntity<List<ShowTransacaoResponse>> findTransactionsByMonth(@PathVariable("month") int month) {
-        List<ShowTransacaoResponse> transacaoResponses = findTransacoesByMonthInteractor.findTransactionsByMonth(month)
+        List<ShowTransacaoResponse> transacaoResponses = showTransactionsFacade.allByMonth(month)
                 .stream().map(transacao -> {
                     FuncionarioEntity funcionarioEntity = funcionarioRepository
                             .findByCpf(transacao.getFuncionario().getCpf())
@@ -162,7 +143,7 @@ public class TransacaoController {
             @PathVariable("month") int month,
             @PathVariable("day") int day
     ) {
-        List<ShowTransacaoResponse> transacaoResponses = findTransacoesByDateInteractor.findTransacoesByDate(month, day)
+        List<ShowTransacaoResponse> transacaoResponses = showTransactionsFacade.allByDate(month, day)
                 .stream().map(transacao -> {
                     FuncionarioEntity funcionarioEntity = funcionarioRepository
                             .findByCpf(transacao.getFuncionario().getCpf())
@@ -183,7 +164,7 @@ public class TransacaoController {
             @PathVariable("date") LocalDateTime dateString,
             @Valid @RequestBody CreateTransacaoRequest createTransacaoRequest
     ) {
-        createScheduledTransacaoInteractor.scheduledTransaction(
+        createTransactionFacade.createScheduled(
                 requestItemToDomain(createTransacaoRequest.itens()),
                 createTransacaoRequest.funcionarioId(),
                 transacaoType,
@@ -209,8 +190,8 @@ public class TransacaoController {
 
     @GetMapping("/type/{type}")
     public ResponseEntity<List<ShowTransacaoResponse>> findTransactionsByType(@PathVariable("type") TransacaoType transacaoType) {
-        List<ShowTransacaoResponse> transacaoResponses = showTransacoesByTypeInteractor
-                .mostrarTransacoesPorTipo(transacaoType)
+        List<ShowTransacaoResponse> transacaoResponses = showTransactionsFacade
+                .allByType(transacaoType)
                 .stream().map(transacao -> {
                     FuncionarioEntity funcionarioEntity = funcionarioRepository
                             .findByCpf(transacao.getFuncionario().getCpf()).get();
@@ -225,8 +206,8 @@ public class TransacaoController {
 
     @GetMapping("/status/{status}")
     public ResponseEntity<List<ShowTransacaoResponse>> findTransactionsByStatus(@PathVariable("status") TransacaoStatus transacaoStatus) {
-        List<ShowTransacaoResponse> transacaoResponses = showTransacoesByStatusInteractor
-                .showTransacoesByStatus(transacaoStatus)
+        List<ShowTransacaoResponse> transacaoResponses = showTransactionsFacade
+                .allByStatus(transacaoStatus)
                 .stream().map(transacao -> {
                     FuncionarioEntity funcionarioEntity = funcionarioRepository
                             .findByCpf(transacao.getFuncionario().getCpf()).get();
