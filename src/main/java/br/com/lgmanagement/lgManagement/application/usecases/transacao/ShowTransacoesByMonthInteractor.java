@@ -5,15 +5,15 @@ import br.com.lgmanagement.lgManagement.domain.entities.transacao.Transacao;
 
 import java.util.List;
 
-public class FindTransacoesByMonthInteractor {
+public class ShowTransacoesByMonthInteractor {
 
     private final TransacaoGateway transacaoGateway;
 
-    public FindTransacoesByMonthInteractor(TransacaoGateway transacaoGateway) {
+    public ShowTransacoesByMonthInteractor(TransacaoGateway transacaoGateway) {
         this.transacaoGateway = transacaoGateway;
     }
 
-    public List<Transacao> findTransactionsByMonth(int month) {
+    public List<Transacao> showTransactionsByMonth(int month) {
         return transacaoGateway.findTransactionsByMonth(month);
     }
 }
