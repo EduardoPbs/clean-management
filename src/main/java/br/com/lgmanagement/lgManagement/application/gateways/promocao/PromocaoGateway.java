@@ -22,4 +22,6 @@ public interface PromocaoGateway {
     Boolean activePromotion(String id);
 
     Boolean disablePromotion(String id);
+
+    Promocao showPromotionById(String id);
 }

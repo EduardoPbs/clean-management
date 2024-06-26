@@ -116,6 +116,14 @@ public class PromocaoRepositoryGateway implements PromocaoGateway {
         return Boolean.TRUE;
     }
 
+    @Override
+    public Promocao showPromotionById(String id) {
+        PromocaoEntity promocaoEntity = promocaoRepository
+                .findById(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Promoção não encontrada."));
+        return promocaoEntityMapper.toDomain(promocaoEntity);
+    }
+
     @Transactional
     @Scheduled(fixedRate = 3600000) // 1 hora
     public void handlePromotion() {

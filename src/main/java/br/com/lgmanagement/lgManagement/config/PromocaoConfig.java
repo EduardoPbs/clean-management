@@ -41,6 +41,11 @@ public class PromocaoConfig {
     }
 
     @Bean
+    ShowPromotionByIdInteractor showPromotionByIdInteractor(PromocaoGateway promocaoGateway) {
+        return new ShowPromotionByIdInteractor(promocaoGateway);
+    }
+
+    @Bean
     PromocaoEntityMapper promocaoEntityMapper(
             ProdutoRepository produtoRepository,
             ProdutoEntityMapper produtoEntityMapper

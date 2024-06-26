@@ -1,6 +1,6 @@
 package br.com.lgmanagement.lgManagement.domain.entities;
 
-public class Endereco {
+public class    Endereco {
 
     private String rua;
     private String bairro;

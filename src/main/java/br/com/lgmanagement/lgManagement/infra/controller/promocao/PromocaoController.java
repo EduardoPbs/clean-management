@@ -1,6 +1,7 @@
 package br.com.lgmanagement.lgManagement.infra.controller.promocao;
 
 import br.com.lgmanagement.lgManagement.application.usecases.promocao.*;
+import br.com.lgmanagement.lgManagement.domain.entities.promocao.Promocao;
 import br.com.lgmanagement.lgManagement.infra.controller.promocao.request.CreatePromocaoRequest;
 import br.com.lgmanagement.lgManagement.infra.controller.promocao.response.ShowPromocaoResponse;
 import br.com.lgmanagement.lgManagement.infra.persistence.produto.ProdutoEntityMapper;
@@ -21,6 +22,7 @@ public class PromocaoController {
     private final FindPromotionsByProductInteractor findPromotionsByProductInteractor;
     private final ActivePromotionInteractor activePromotionInteractor;
     private final DisablePromotionInteractor disablePromotionInteractor;
+    private final ShowPromotionByIdInteractor showPromotionByIdInteractor;
 
     public PromocaoController(
             ProdutoEntityMapper produtoEntityMapper,
@@ -28,7 +30,8 @@ public class PromocaoController {
             ShowAllPromotionsInteractor showAllPromotionsInteractor,
             FindPromotionsByProductInteractor findPromotionsByProductInteractor,
             ActivePromotionInteractor activePromotionInteractor,
-            DisablePromotionInteractor disablePromotionInteractor
+            DisablePromotionInteractor disablePromotionInteractor,
+            ShowPromotionByIdInteractor showPromotionByIdInteractor
     ) {
         this.produtoEntityMapper = produtoEntityMapper;
         this.createPromotionInteractor = createPromotionInteractor;
@@ -36,6 +39,7 @@ public class PromocaoController {
         this.findPromotionsByProductInteractor = findPromotionsByProductInteractor;
         this.activePromotionInteractor = activePromotionInteractor;
         this.disablePromotionInteractor = disablePromotionInteractor;
+        this.showPromotionByIdInteractor = showPromotionByIdInteractor;
     }
 
     @PostMapping("/create/{produtoId}")
@@ -63,6 +67,13 @@ public class PromocaoController {
                 .toList();
         return ResponseEntity.status(HttpStatus.OK)
                 .body(showPromocaoResponses);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<ShowPromocaoResponse> showPromotionById(@PathVariable("id") String id) {
+        Promocao promotion = showPromotionByIdInteractor.showPromotionById(id);
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(new ShowPromocaoResponse(promotion, produtoEntityMapper));
     }
 
     @GetMapping("/product/{produtoId}")

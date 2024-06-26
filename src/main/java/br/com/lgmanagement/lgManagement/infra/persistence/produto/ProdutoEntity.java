@@ -34,6 +34,8 @@ public class ProdutoEntity implements IProdutoEntity {
 
     @OneToMany(mappedBy = "produtoEntity", cascade = CascadeType.ALL)
     private List<PromocaoEntity> promocaoEntity;
+
+    @Column(precision = 38, scale = 3)
     private BigDecimal estoque;
 
     public ProdutoEntity() {
