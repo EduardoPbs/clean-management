@@ -7,6 +7,7 @@ import br.com.lgmanagement.lgManagement.infra.controller.caixa.request.OpenCashi
 import br.com.lgmanagement.lgManagement.infra.controller.caixa.request.RegisterMovementRequest;
 import br.com.lgmanagement.lgManagement.infra.controller.caixa.response.ShowCaixaResponse;
 import br.com.lgmanagement.lgManagement.infra.controller.caixa.response.ShowMovementResponse;
+import br.com.lgmanagement.lgManagement.infra.persistence.caixa.CaixaEntityMapper;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -28,6 +29,7 @@ public class CaixaController {
     private final FindCaixaByDateInteractor findCaixaByDateInteractor;
     private final FindMovementsByMonthInteractor findMovementsByMonthInteractor;
     private final FindMovementsByDateInteractor findMovementsByDateInteractor;
+    private final CaixaEntityMapper caixaEntityMapper;
 
     public CaixaController(
             ShowCaixaInteractor showCaixaInteractor,
@@ -39,7 +41,8 @@ public class CaixaController {
             FindCaixaByMonthInteractor findCaixaByMonthInteractor,
             FindCaixaByDateInteractor findCaixaByDateInteractor,
             FindMovementsByMonthInteractor findMovementsByMonthInteractor,
-            FindMovementsByDateInteractor findMovementsByDateInteractor
+            FindMovementsByDateInteractor findMovementsByDateInteractor,
+            CaixaEntityMapper caixaEntityMapper
     ) {
         this.showCaixaInteractor = showCaixaInteractor;
         this.createMovementInteractor = createMovementInteractor;
@@ -51,18 +54,19 @@ public class CaixaController {
         this.findCaixaByDateInteractor = findCaixaByDateInteractor;
         this.findMovementsByMonthInteractor = findMovementsByMonthInteractor;
         this.findMovementsByDateInteractor = findMovementsByDateInteractor;
+        this.caixaEntityMapper = caixaEntityMapper;
     }
 
     @GetMapping("/current")
     public ResponseEntity<ShowCaixaResponse> showCurrentCashier() {
         return ResponseEntity.status(HttpStatus.OK)
-                .body(new ShowCaixaResponse(showCaixaInteractor.showCaixa()));
+                .body(new ShowCaixaResponse(showCaixaInteractor.showCaixa(), caixaEntityMapper));
     }
 
     @GetMapping("/month/{month}")
     public ResponseEntity<List<ShowCaixaResponse>> findCashiersByMonth(@PathVariable("month") int month) {
         List<ShowCaixaResponse> caixaResponses = findCaixaByMonthInteractor.findCaixaByMonth(month)
-                .stream().map(caixa -> new ShowCaixaResponse(caixa))
+                .stream().map(caixa -> new ShowCaixaResponse(caixa, caixaEntityMapper))
                 .toList();
         return ResponseEntity.status(HttpStatus.OK)
                 .body(caixaResponses);
@@ -74,7 +78,7 @@ public class CaixaController {
             @PathVariable("day") int day
     ) {
         List<ShowCaixaResponse> caixaResponses = findCaixaByDateInteractor.findCaixaByDate(month, day)
-                .stream().map(caixa -> new ShowCaixaResponse(caixa))
+                .stream().map(caixa -> new ShowCaixaResponse(caixa, caixaEntityMapper))
                 .toList();
         return ResponseEntity.status(HttpStatus.OK)
                 .body(caixaResponses);
@@ -83,7 +87,7 @@ public class CaixaController {
     @GetMapping("/all")
     public ResponseEntity<List<ShowCaixaResponse>> showAllCashiers() {
         List<ShowCaixaResponse> caixaResponses = showAllCaixasInteractor.showAllCaixas()
-                .stream().map(caixa -> new ShowCaixaResponse(caixa))
+                .stream().map(caixa -> new ShowCaixaResponse(caixa, caixaEntityMapper))
                 .toList();
         return ResponseEntity.status(HttpStatus.OK)
                 .body(caixaResponses);

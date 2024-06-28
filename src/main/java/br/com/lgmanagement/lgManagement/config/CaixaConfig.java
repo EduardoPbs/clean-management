@@ -54,7 +54,7 @@ public class CaixaConfig {
     }
 
     @Bean
-    CaixaEntityMapper caixaEntityMapper(MovimentacaoEntityMapper movimentacaoEntityMapper) {
-        return new CaixaEntityMapper(movimentacaoEntityMapper);
+    CaixaEntityMapper caixaEntityMapper(MovimentacaoEntityMapper movimentacaoEntityMapper, CaixaRepository caixaRepository) {
+        return new CaixaEntityMapper(movimentacaoEntityMapper, caixaRepository);
     }
 }

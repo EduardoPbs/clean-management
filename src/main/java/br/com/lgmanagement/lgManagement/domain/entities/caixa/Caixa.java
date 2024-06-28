@@ -5,9 +5,11 @@ import br.com.lgmanagement.lgManagement.domain.entities.movimentacao.Movimentaca
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.UUID;
 
 public class Caixa {
 
+    private String id;
     private BigDecimal valorAbertura;
     private BigDecimal valorAtual;
     private BigDecimal valorFechamento;
@@ -20,12 +22,14 @@ public class Caixa {
     }
 
     public Caixa(
+            String id,
             BigDecimal valorAbertura,
             BigDecimal valorAtual,
             BigDecimal valorFechamento,
             LocalDateTime abertura,
             LocalDateTime fechamento
     ) {
+        this.id = id;
         this.valorAbertura = valorAbertura;
         this.valorAtual = valorAtual;
         this.valorFechamento = valorFechamento;
@@ -33,6 +37,23 @@ public class Caixa {
         this.fechamento = fechamento;
     }
 
+    public Caixa(
+            String id,
+            BigDecimal valorAbertura,
+            BigDecimal valorAtual,
+            BigDecimal valorFechamento,
+            LocalDateTime abertura,
+            LocalDateTime fechamento,
+            List<Movimentacao> movimentacoes
+    ) {
+        this.id = id;
+        this.valorAbertura = valorAbertura;
+        this.valorAtual = valorAtual;
+        this.valorFechamento = valorFechamento;
+        this.abertura = abertura;
+        this.fechamento = fechamento;
+        this.movimentacoes = movimentacoes;
+    }
 
     public Caixa(
             BigDecimal valorAbertura,
@@ -42,12 +63,17 @@ public class Caixa {
             LocalDateTime fechamento,
             List<Movimentacao> movimentacoes
     ) {
+        this.id = UUID.randomUUID().toString();
         this.valorAbertura = valorAbertura;
         this.valorAtual = valorAtual;
         this.valorFechamento = valorFechamento;
         this.abertura = abertura;
         this.fechamento = fechamento;
         this.movimentacoes = movimentacoes;
+    }
+
+    public String getId() {
+        return id;
     }
 
     public BigDecimal getValorAbertura() {
@@ -109,4 +135,5 @@ public class Caixa {
                 ", movimentacoes=" + movimentacoes +
                 '}';
     }
+
 }

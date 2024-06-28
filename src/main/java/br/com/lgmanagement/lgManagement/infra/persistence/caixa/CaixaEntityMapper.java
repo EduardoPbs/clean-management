@@ -3,6 +3,8 @@ package br.com.lgmanagement.lgManagement.infra.persistence.caixa;
 import br.com.lgmanagement.lgManagement.domain.entities.caixa.Caixa;
 import br.com.lgmanagement.lgManagement.domain.entities.movimentacao.Movimentacao;
 import br.com.lgmanagement.lgManagement.infra.persistence.movimentacao.MovimentacaoEntityMapper;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,9 +12,11 @@ import java.util.List;
 public class CaixaEntityMapper {
 
     private final MovimentacaoEntityMapper movimentacaoEntityMapper;
+    private final CaixaRepository caixaRepository;
 
-    public CaixaEntityMapper(MovimentacaoEntityMapper movimentacaoEntityMapper) {
+    public CaixaEntityMapper(MovimentacaoEntityMapper movimentacaoEntityMapper, CaixaRepository caixaRepository) {
         this.movimentacaoEntityMapper = movimentacaoEntityMapper;
+        this.caixaRepository = caixaRepository;
     }
 
     public Caixa toDomain(CaixaEntity caixaEntity) {
@@ -25,6 +29,7 @@ public class CaixaEntityMapper {
         }
 
         return new Caixa(
+                caixaEntity.getId(),
                 caixaEntity.getValorAbertura(),
                 caixaEntity.getValorAtual(),
                 caixaEntity.getValorFechamento(),
@@ -35,12 +40,17 @@ public class CaixaEntityMapper {
     }
 
     public CaixaEntity toEntity(Caixa caixa) {
+        CaixaEntity caixaEntity = caixaRepository
+                .findById(caixa.getId())
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Caixa não encontrado."));
+
         return new CaixaEntity(
-                caixa.getValorAbertura(),
-                caixa.getValorAtual(),
-                caixa.getValorFechamento(),
-                caixa.getAbertura(),
-                caixa.getFechamento()
+                caixaEntity.getId(),
+                caixaEntity.getValorAbertura(),
+                caixaEntity.getValorAtual(),
+                caixaEntity.getValorFechamento(),
+                caixaEntity.getAbertura(),
+                caixaEntity.getFechamento()
         );
     }
 }

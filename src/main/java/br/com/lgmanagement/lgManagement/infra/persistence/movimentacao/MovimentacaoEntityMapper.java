@@ -7,6 +7,7 @@ public class MovimentacaoEntityMapper {
 
     public Movimentacao toDomain(MovimentacaoEntity movimentacaoEntity) {
         Caixa caixa = new Caixa(
+                movimentacaoEntity.getCaixa().getId(),
                 movimentacaoEntity.getCaixa().getValorAbertura(),
                 movimentacaoEntity.getCaixa().getValorAtual(),
                 movimentacaoEntity.getCaixa().getValorFechamento(),
