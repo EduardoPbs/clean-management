@@ -1,7 +1,6 @@
 package br.com.lgmanagement.lgManagement.infra.controller.promocao.request;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import jakarta.validation.constraints.FutureOrPresent;
 import jakarta.validation.constraints.NotNull;
 
 import java.math.BigDecimal;
@@ -15,7 +14,6 @@ public record CreatePromocaoRequest(
 
         @NotNull
         @JsonProperty("inicio")
-        @FutureOrPresent(message = "Deve ser uma data futura.")
         LocalDateTime dataInicio,
 
         @NotNull
