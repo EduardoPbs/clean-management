@@ -66,7 +66,8 @@ public class ProdutoEntity implements IProdutoEntity {
             BigDecimal valor,
             List<Categoria> categorias,
             BigDecimal estoque,
-            Boolean ativo
+            Boolean ativo,
+            BigDecimal valorOriginal
     ) {
         this.id = id;
         this.nome = nome;
@@ -75,16 +76,16 @@ public class ProdutoEntity implements IProdutoEntity {
         this.codigo = codigo;
         this.categorias = categorias;
         this.estoque = estoque;
-        this.valorOriginal = valor;
+        this.valorOriginal = valorOriginal;
     }
 
     public Boolean applyPromocao(PromocaoEntity promocaoEntity) {
         try {
             if (promocaoEntity.getAtivo()) {
-                BigDecimal valorDesconto = this.getValor()
+                BigDecimal valorDesconto = this.getValorOriginal()
                         .multiply(promocaoEntity.getPorcentagemDesconto())
                         .divide(new BigDecimal("100"));
-                this.setValor(this.getValor().subtract(valorDesconto));
+                this.setValor(this.getValorOriginal().subtract(valorDesconto));
             } else {
                 this.setValor(this.valorOriginal);
             }
@@ -183,7 +184,7 @@ public class ProdutoEntity implements IProdutoEntity {
     }
 
     public BigDecimal getValorOriginal() {
-        return valorOriginal;
+        return this.valorOriginal;
     }
 
     public Boolean getAtivo() {

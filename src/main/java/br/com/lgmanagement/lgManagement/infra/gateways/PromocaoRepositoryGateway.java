@@ -68,6 +68,15 @@ public class PromocaoRepositoryGateway implements PromocaoGateway {
             }
         }
         PromocaoEntity promocaoEntity = new PromocaoEntity(produtoEntity, porcentagemDesconto, dataInicio, dataFim);
+
+        if (promocaoEntity.getDataInicio().isBefore(LocalDateTime.now()) && !promocaoEntity.getAtivo()) {
+            promocaoEntity.setAtivo(Boolean.TRUE);
+        }
+
+        if (promocaoEntity.getDataFim().isBefore(LocalDateTime.now()) && promocaoEntity.getAtivo()) {
+            promocaoEntity.setAtivo(Boolean.FALSE);
+        }
+
         produtoEntity.applyPromocao(promocaoEntity);
         promocaoRepository.save(promocaoEntity);
         Promocao promocao = promocaoEntityMapper.toDomain(promocaoEntity);

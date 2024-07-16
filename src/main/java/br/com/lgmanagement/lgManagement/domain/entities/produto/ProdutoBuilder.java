@@ -12,7 +12,7 @@ public class ProdutoBuilder {
     private Produto produto;
 
     public Produto withNomeAndCodigo(String nome, String codigo) {
-        this.produto = new Produto(nome, codigo, BigDecimal.ZERO, new ArrayList<>(), BigDecimal.ZERO, false);
+        this.produto = new Produto(nome, codigo, BigDecimal.ZERO, BigDecimal.ZERO, new ArrayList<>(), BigDecimal.ZERO, false);
         return this.produto;
     }
 

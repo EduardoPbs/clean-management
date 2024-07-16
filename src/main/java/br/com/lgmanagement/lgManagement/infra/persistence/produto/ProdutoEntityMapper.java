@@ -37,7 +37,8 @@ public class ProdutoEntityMapper {
                 produto.getValor(),
                 produto.getCategorias(),
                 produto.getEstoque(),
-                produto.getAtivo()
+                produto.getAtivo(),
+                produto.getValorOriginal()
         );
     }
 
@@ -63,7 +64,8 @@ public class ProdutoEntityMapper {
                 mercadoriaRequest.valor(),
                 mercadoriaRequest.categorias(),
                 mercadoriaRequest.estoque(),
-                existsMercadoria.get().getAtivo()
+                existsMercadoria.get().getAtivo(),
+                existsMercadoria.get().getValorOriginal()
         );
     }
 
@@ -72,6 +74,7 @@ public class ProdutoEntityMapper {
                 produtoEntity.getNome(),
                 produtoEntity.getCodigo(),
                 produtoEntity.getValor(),
+                produtoEntity.getValorOriginal(),
                 produtoEntity.getCategorias(),
                 produtoEntity.getEstoque(),
                 produtoEntity.getAtivo()
@@ -82,6 +85,7 @@ public class ProdutoEntityMapper {
         return new Produto(
                 createProdutoRequest.nome(),
                 createProdutoRequest.codigo(),
+                createProdutoRequest.valor(),
                 createProdutoRequest.valor(),
                 createProdutoRequest.categorias(),
                 createProdutoRequest.estoque(),

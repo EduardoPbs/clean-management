@@ -27,6 +27,7 @@ public class Produto implements IProduto {
             String nome,
             String codigo,
             BigDecimal valor,
+            BigDecimal valorOriginal,
             List<Categoria> categorias,
             BigDecimal estoque,
             Boolean ativo
@@ -42,7 +43,7 @@ public class Produto implements IProduto {
 
         this.nome = nome;
         this.valor = valor;
-        this.valorOriginal = valor;
+        this.valorOriginal = valorOriginal;
         this.ativo = ativo;
         this.codigo = codigo;
         this.categorias = categorias;
@@ -73,6 +74,14 @@ public class Produto implements IProduto {
 
     public void setValor(BigDecimal valor) {
         this.valor = valor;
+    }
+
+    public BigDecimal getValorOriginal() {
+        return valorOriginal;
+    }
+
+    public void setValorOriginal(BigDecimal valorOriginal) {
+        this.valorOriginal = valorOriginal;
     }
 
     public Boolean getAtivo() {
@@ -116,6 +125,7 @@ public class Produto implements IProduto {
         return "Produto{" +
                 "nome='" + nome + '\'' +
                 ", valor=" + valor +
+                ", valorOriginal=" + valorOriginal +
                 ", ativo=" + ativo +
                 ", codigo='" + codigo + '\'' +
                 ", categorias=" + categorias +
