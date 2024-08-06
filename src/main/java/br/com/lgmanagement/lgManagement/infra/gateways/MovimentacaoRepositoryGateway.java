@@ -46,6 +46,7 @@ public class MovimentacaoRepositoryGateway implements MovimentacaoGateway {
             caixaEntity.setValorAtual(caixaEntity.getValorAtual().add(movimentacaoEntity.getValor()));
         }
 
+        movimentacaoEntity.setTransacaoType(transacaoType);
         movimentacaoEntity.setCaixa(caixaEntity);
         caixaRepository.save(caixaEntity);
         movimentacaoRepository.save(movimentacaoEntity);

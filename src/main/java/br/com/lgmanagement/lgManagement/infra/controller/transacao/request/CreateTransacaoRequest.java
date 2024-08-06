@@ -1,5 +1,6 @@
 package br.com.lgmanagement.lgManagement.infra.controller.transacao.request;
 
+import br.com.lgmanagement.lgManagement.domain.entities.PagamentoType;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.List;
@@ -8,6 +9,9 @@ public record CreateTransacaoRequest(
         List<CreateItemRequest> itens,
 
         @JsonProperty("funcionario_id")
-        String funcionarioId
+        String funcionarioId,
+
+        @JsonProperty("forma_pagamento")
+        PagamentoType pagamentoType
 ) {
 }

@@ -1,5 +1,6 @@
 package br.com.lgmanagement.lgManagement.application.gateways.transacao;
 
+import br.com.lgmanagement.lgManagement.domain.entities.PagamentoType;
 import br.com.lgmanagement.lgManagement.domain.entities.TransacaoStatus;
 import br.com.lgmanagement.lgManagement.domain.entities.TransacaoType;
 import br.com.lgmanagement.lgManagement.domain.entities.item.Item;
@@ -9,7 +10,7 @@ import java.util.List;
 
 public interface TransacaoGateway {
 
-    Transacao registrarTransacao(List<Item> itens, String funcionarioId, TransacaoType transacaoType);
+    Transacao registrarTransacao(List<Item> itens, String funcionarioId, PagamentoType pagamentoType, TransacaoType transacaoType);
 
     List<Transacao> listarTransacoes();
 
@@ -21,7 +22,7 @@ public interface TransacaoGateway {
 
     List<Transacao> showTransacoesByStatus(TransacaoStatus transacaoStatus);
 
-    Transacao registerScheduledTransacao(List<Item> itens, String funcionarioId, TransacaoType transacaoType, String dateString);
+    Transacao registerScheduledTransacao(List<Item> itens, String funcionarioId, TransacaoType transacaoType, PagamentoType pagamentoType, String dateString);
 
     void finalizeTransaction(String id);
 

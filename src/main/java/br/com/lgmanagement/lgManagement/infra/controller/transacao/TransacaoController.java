@@ -3,6 +3,7 @@ package br.com.lgmanagement.lgManagement.infra.controller.transacao;
 import br.com.lgmanagement.lgManagement.application.facades.transacoes.ShowTransactionsFacade;
 import br.com.lgmanagement.lgManagement.application.facades.transacoes.CreateTransactionFacade;
 import br.com.lgmanagement.lgManagement.application.usecases.transacao.*;
+import br.com.lgmanagement.lgManagement.domain.entities.PagamentoType;
 import br.com.lgmanagement.lgManagement.domain.entities.TransacaoStatus;
 import br.com.lgmanagement.lgManagement.domain.entities.TransacaoType;
 import br.com.lgmanagement.lgManagement.domain.entities.item.Item;
@@ -81,7 +82,7 @@ public class TransacaoController {
          * Adicionar reposicao de estoque de produtos.
          */
         Transacao transacao = createTransactionFacade
-                .create(itens, createTransacaoRequest.funcionarioId(), TransacaoType.COMPRA);
+                .create(itens, createTransacaoRequest.funcionarioId(), PagamentoType.NAO_DEFINIDO, TransacaoType.COMPRA);
 
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body("Compra cadastrada com sucesso. " + transacao.getId());
@@ -91,7 +92,12 @@ public class TransacaoController {
     public ResponseEntity<String> registerSale(@RequestBody @Valid CreateTransacaoRequest createTransacaoRequest) {
         List<Item> itens = requestItemToDomain(createTransacaoRequest.itens());
         Transacao transacao = createTransactionFacade
-                .create(itens, createTransacaoRequest.funcionarioId(), TransacaoType.VENDA);
+                .create(
+                        itens,
+                        createTransacaoRequest.funcionarioId(),
+                        createTransacaoRequest.pagamentoType(),
+                        TransacaoType.VENDA
+                );
 
         // Só sera descontado do estoque quando a venda for FINALIZADA.
         return ResponseEntity.status(HttpStatus.CREATED)
@@ -168,6 +174,7 @@ public class TransacaoController {
                 requestItemToDomain(createTransacaoRequest.itens()),
                 createTransacaoRequest.funcionarioId(),
                 transacaoType,
+                createTransacaoRequest.pagamentoType(),
                 dateString.toString()
         );
         return ResponseEntity.status(HttpStatus.OK)
@@ -235,6 +242,12 @@ public class TransacaoController {
     public ResponseEntity<TransacaoType[]> showTypes() {
         return ResponseEntity.status(HttpStatus.OK)
                 .body(TransacaoType.values());
+    }
+
+    @GetMapping("/payment-types")
+    public ResponseEntity<PagamentoType[]> showPaymentTypes() {
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(PagamentoType.values());
     }
 
     private List<Item> requestItemToDomain(List<CreateItemRequest> itemsRequest) {

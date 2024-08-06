@@ -1,6 +1,7 @@
 package br.com.lgmanagement.lgManagement.infra.gateways;
 
 import br.com.lgmanagement.lgManagement.application.gateways.transacao.TransacaoGateway;
+import br.com.lgmanagement.lgManagement.domain.entities.PagamentoType;
 import br.com.lgmanagement.lgManagement.domain.entities.TransacaoStatus;
 import br.com.lgmanagement.lgManagement.domain.entities.TransacaoType;
 import br.com.lgmanagement.lgManagement.domain.entities.funcionario.Funcionario;
@@ -66,8 +67,8 @@ public class TransacaoRepositoryGateway implements TransacaoGateway {
 
     @Override
     @Transactional
-    public Transacao registrarTransacao(List<Item> itens, String funcionarioId, TransacaoType transacaoType) {
-        Transacao transacao = registerTransaction(itens, funcionarioId, transacaoType, null);
+    public Transacao registrarTransacao(List<Item> itens, String funcionarioId, PagamentoType pagamentoType, TransacaoType transacaoType) {
+        Transacao transacao = registerTransaction(itens, funcionarioId, transacaoType, pagamentoType, null);
         return transacao;
     }
 
@@ -84,6 +85,7 @@ public class TransacaoRepositoryGateway implements TransacaoGateway {
                     )).toList(),
                     transacaoEntity.getTransacaoStatus(),
                     transacaoEntity.getTransacaoType(),
+                    transacaoEntity.getPagamentoType(),
                     transacaoEntity.getCreatedAt(),
                     transacaoEntity.getScheduledAt(),
                     transacaoEntity.getTotal()
@@ -141,8 +143,8 @@ public class TransacaoRepositoryGateway implements TransacaoGateway {
 
     @Override
     @Transactional
-    public Transacao registerScheduledTransacao(List<Item> itens, String funcionarioId, TransacaoType transacaoType, String dateString) {
-        Transacao transacao = registerTransaction(itens, funcionarioId, transacaoType, dateString);
+    public Transacao registerScheduledTransacao(List<Item> itens, String funcionarioId, TransacaoType transacaoType, PagamentoType pagamentoType, String dateString) {
+        Transacao transacao = registerTransaction(itens, funcionarioId, transacaoType, pagamentoType, dateString);
         return transacao;
     }
 
@@ -199,7 +201,7 @@ public class TransacaoRepositoryGateway implements TransacaoGateway {
         return transacoes;
     }
 
-    private Transacao registerTransaction(List<Item> itens, String funcionarioId, TransacaoType transacaoType, String dateString) {
+    private Transacao registerTransaction(List<Item> itens, String funcionarioId, TransacaoType transacaoType, PagamentoType pagamentoType, String dateString) {
         TransacaoEntity newTransacaoEntity = new TransacaoEntity();
         if (dateString != null) {
             newTransacaoEntity.setSchedule();
@@ -246,6 +248,7 @@ public class TransacaoRepositoryGateway implements TransacaoGateway {
         movimentacaoRepositoryGateway
                 .registerMovement(totalOfItems, caixaRepositoryGateway.showCaixa(), transacaoType);
 
+        newTransacaoEntity.setPagamentoType(pagamentoType);
         newTransacaoEntity.setItens(itemTransacaoEntities);
         newTransacaoEntity.setTotal(totalOfItems);
         newTransacaoEntity.setFuncionarioEntity(funcionarioEntity);

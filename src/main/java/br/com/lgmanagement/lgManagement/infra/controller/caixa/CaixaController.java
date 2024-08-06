@@ -96,7 +96,7 @@ public class CaixaController {
     @GetMapping("/movements/all")
     public ResponseEntity<List<ShowMovementResponse>> showAllMovements() {
         List<ShowMovementResponse> movementResponses = showAllMovementsInteractor.showAllMovements()
-                .stream().map(movimentacao -> new ShowMovementResponse(movimentacao.getValor(), movimentacao.getCreatedAt()))
+                .stream().map(movimentacao -> new ShowMovementResponse(movimentacao.getValor(), movimentacao.getTransacaoType(), movimentacao.getCreatedAt()))
                 .toList();
         return ResponseEntity.status(HttpStatus.OK)
                 .body(movementResponses);
@@ -105,7 +105,7 @@ public class CaixaController {
     @GetMapping("/movements/month/{month}")
     public ResponseEntity<List<ShowMovementResponse>> findAllMovementsByMonth(@PathVariable("month") int month) {
         List<ShowMovementResponse> movementResponses = findMovementsByMonthInteractor.findMovementsByMonth(month)
-                .stream().map(movimentacao -> new ShowMovementResponse(movimentacao.getValor(), movimentacao.getCreatedAt()))
+                .stream().map(movimentacao -> new ShowMovementResponse(movimentacao.getValor(), movimentacao.getTransacaoType(), movimentacao.getCreatedAt()))
                 .toList();
         return ResponseEntity.status(HttpStatus.OK)
                 .body(movementResponses);
@@ -118,7 +118,7 @@ public class CaixaController {
     ) {
         List<ShowMovementResponse> movementResponses = findMovementsByDateInteractor.findMovementsByDate(month, day)
                 .stream()
-                .map(movimentacao -> new ShowMovementResponse(movimentacao.getValor(), movimentacao.getCreatedAt()))
+                .map(movimentacao -> new ShowMovementResponse(movimentacao.getValor(), movimentacao.getTransacaoType(), movimentacao.getCreatedAt()))
                 .toList();
         return ResponseEntity.status(HttpStatus.OK)
                 .body(movementResponses);

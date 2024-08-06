@@ -1,6 +1,7 @@
 package br.com.lgmanagement.lgManagement.application.usecases.transacao;
 
 import br.com.lgmanagement.lgManagement.application.gateways.transacao.TransacaoGateway;
+import br.com.lgmanagement.lgManagement.domain.entities.PagamentoType;
 import br.com.lgmanagement.lgManagement.domain.entities.TransacaoType;
 import br.com.lgmanagement.lgManagement.domain.entities.item.Item;
 import br.com.lgmanagement.lgManagement.domain.entities.transacao.Transacao;
@@ -19,8 +20,9 @@ public class CreateScheduledTransacaoInteractor {
             List<Item> itens,
             String funcionarioId,
             TransacaoType transacaoType,
+            PagamentoType pagamentoType,
             String dateString
     ) {
-        return transacaoGateway.registerScheduledTransacao(itens, funcionarioId, transacaoType, dateString);
+        return transacaoGateway.registerScheduledTransacao(itens, funcionarioId, transacaoType, pagamentoType, dateString);
     }
 }

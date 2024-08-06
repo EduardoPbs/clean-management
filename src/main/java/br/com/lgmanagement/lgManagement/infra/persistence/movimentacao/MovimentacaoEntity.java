@@ -1,10 +1,8 @@
 package br.com.lgmanagement.lgManagement.infra.persistence.movimentacao;
 
+import br.com.lgmanagement.lgManagement.domain.entities.TransacaoType;
 import br.com.lgmanagement.lgManagement.infra.persistence.caixa.CaixaEntity;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.EqualsAndHashCode;
 import org.springframework.data.annotation.CreatedDate;
 
@@ -20,6 +18,9 @@ public class MovimentacaoEntity {
     private String id;
 
     private BigDecimal valor;
+
+    @Enumerated(EnumType.STRING)
+    private TransacaoType transacaoType;
 
     @CreatedDate
     private LocalDateTime createdAt;
@@ -43,11 +44,13 @@ public class MovimentacaoEntity {
     public MovimentacaoEntity(
             String id,
             BigDecimal valor,
+            TransacaoType transacaoType,
             LocalDateTime createdAt,
             CaixaEntity caixa
     ) {
         this.id = id;
         this.valor = valor;
+        this.transacaoType = transacaoType;
         this.createdAt = createdAt;
         this.caixa = caixa;
     }
@@ -66,6 +69,14 @@ public class MovimentacaoEntity {
 
     public void setValor(BigDecimal valor) {
         this.valor = valor;
+    }
+
+    public TransacaoType getTransacaoType() {
+        return transacaoType;
+    }
+
+    public void setTransacaoType(TransacaoType transacaoType) {
+        this.transacaoType = transacaoType;
     }
 
     public LocalDateTime getCreatedAt() {

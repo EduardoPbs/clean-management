@@ -1,6 +1,7 @@
 package br.com.lgmanagement.lgManagement.application.usecases.transacao;
 
 import br.com.lgmanagement.lgManagement.application.gateways.transacao.TransacaoGateway;
+import br.com.lgmanagement.lgManagement.domain.entities.PagamentoType;
 import br.com.lgmanagement.lgManagement.domain.entities.TransacaoType;
 import br.com.lgmanagement.lgManagement.domain.entities.item.Item;
 import br.com.lgmanagement.lgManagement.domain.entities.transacao.Transacao;
@@ -15,7 +16,7 @@ public class CreateTransacaoInteractor {
         this.transacaoGateway = transacaoGateway;
     }
 
-    public Transacao registrarTransacao(List<Item> itens, String funcionarioId, TransacaoType transacaoType) {
-        return transacaoGateway.registrarTransacao(itens, funcionarioId, transacaoType);
+    public Transacao registrarTransacao(List<Item> itens, String funcionarioId, PagamentoType pagamentoType, TransacaoType transacaoType) {
+        return transacaoGateway.registrarTransacao(itens, funcionarioId, pagamentoType, transacaoType);
     }
 }

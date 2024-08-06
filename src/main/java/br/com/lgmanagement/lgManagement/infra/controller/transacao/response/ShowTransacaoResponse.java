@@ -1,5 +1,6 @@
 package br.com.lgmanagement.lgManagement.infra.controller.transacao.response;
 
+import br.com.lgmanagement.lgManagement.domain.entities.PagamentoType;
 import br.com.lgmanagement.lgManagement.domain.entities.TransacaoStatus;
 import br.com.lgmanagement.lgManagement.domain.entities.TransacaoType;
 import br.com.lgmanagement.lgManagement.domain.entities.transacao.Transacao;
@@ -21,6 +22,9 @@ public record ShowTransacaoResponse(
         @JsonProperty("tipo")
         TransacaoType transacaoType,
 
+        @JsonProperty("forma_pagamento")
+        PagamentoType pagamentoType,
+
 //        List<ShowItemResponse> itens,
 
         @JsonProperty("quantidade_itens")
@@ -36,6 +40,7 @@ public record ShowTransacaoResponse(
                 funcionarioId,
                 transacao.getTransacaoStatus(),
                 transacao.getTransacaoType(),
+                transacao.getPagamentoType(),
                 transacao.getItens().size(),
 //                transacao.getItens().stream().map(item -> new ShowItemResponse(
 //                                item.getQuantidade(),

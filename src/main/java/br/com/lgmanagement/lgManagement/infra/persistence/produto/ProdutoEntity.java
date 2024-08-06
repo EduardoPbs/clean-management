@@ -11,6 +11,7 @@ import org.springframework.web.server.ResponseStatusException;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Table(name = "produtos")
@@ -97,10 +98,12 @@ public class ProdutoEntity implements IProdutoEntity {
     }
 
     public PromocaoEntity getPromocaoAtiva() {
-        for (PromocaoEntity promocao : this.getPromocaoEntity()) {
-            if (promocao.getDataInicio().isBefore(LocalDateTime.now()) &&
-                    promocao.getDataFim().isAfter(LocalDateTime.now())) {
-                return promocao;
+        if (!this.getPromocaoEntity().isEmpty()) {
+            for (PromocaoEntity promocao : this.getPromocaoEntity()) {
+                if (promocao.getDataInicio().isBefore(LocalDateTime.now()) &&
+                        promocao.getDataFim().isAfter(LocalDateTime.now())) {
+                    return promocao;
+                }
             }
         }
         return null;

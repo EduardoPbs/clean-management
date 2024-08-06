@@ -18,6 +18,7 @@ public class MovimentacaoEntityMapper {
         return new Movimentacao(
                 movimentacaoEntity.getId(),
                 movimentacaoEntity.getValor(),
+                movimentacaoEntity.getTransacaoType(),
                 movimentacaoEntity.getCreatedAt(),
                 caixa
         );

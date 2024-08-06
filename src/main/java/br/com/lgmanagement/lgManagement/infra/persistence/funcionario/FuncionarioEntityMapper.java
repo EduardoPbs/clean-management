@@ -85,6 +85,7 @@ public class FuncionarioEntityMapper {
                                 itemTransacoes,
                                 transacaoEntity.getTransacaoStatus(),
                                 transacaoEntity.getTransacaoType(),
+                                transacaoEntity.getPagamentoType(),
                                 transacaoEntity.getCreatedAt(),
                                 transacaoEntity.getScheduledAt(),
                                 new Funcionario(

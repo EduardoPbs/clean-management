@@ -1,5 +1,6 @@
 package br.com.lgmanagement.lgManagement.domain.entities.transacao;
 
+import br.com.lgmanagement.lgManagement.domain.entities.PagamentoType;
 import br.com.lgmanagement.lgManagement.domain.entities.TransacaoStatus;
 import br.com.lgmanagement.lgManagement.domain.entities.TransacaoType;
 import br.com.lgmanagement.lgManagement.domain.entities.funcionario.Funcionario;
@@ -17,6 +18,7 @@ public class Transacao implements ITransacao {
     private BigDecimal total;
     private TransacaoStatus transacaoStatus;
     private TransacaoType transacaoType;
+    private PagamentoType pagamentoType;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
     private LocalDateTime scheduledAt;
@@ -31,6 +33,7 @@ public class Transacao implements ITransacao {
             List<Item> itens,
             TransacaoStatus transacaoStatus,
             TransacaoType transacaoType,
+            PagamentoType pagamentoType,
             LocalDateTime createdAt,
             LocalDateTime updatedAt,
             Funcionario funcionario
@@ -39,6 +42,7 @@ public class Transacao implements ITransacao {
         this.itens = itens;
         this.transacaoStatus = transacaoStatus;
         this.transacaoType = transacaoType;
+        this.pagamentoType = pagamentoType;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
         this.funcionario = funcionario;
@@ -77,6 +81,7 @@ public class Transacao implements ITransacao {
             List<Item> itens,
             TransacaoStatus transacaoStatus,
             TransacaoType transacaoType,
+            PagamentoType pagamentoType,
             LocalDateTime createdAt,
             LocalDateTime scheduledAt,
             BigDecimal total
@@ -85,6 +90,7 @@ public class Transacao implements ITransacao {
         this.itens = itens;
         this.transacaoStatus = transacaoStatus;
         this.transacaoType = transacaoType;
+        this.pagamentoType = pagamentoType;
         this.createdAt = createdAt;
         this.scheduledAt = scheduledAt;
         this.total = total;
@@ -143,6 +149,10 @@ public class Transacao implements ITransacao {
     @Override
     public TransacaoType getTransacaoType() {
         return this.transacaoType;
+    }
+
+    public PagamentoType getPagamentoType() {
+        return pagamentoType;
     }
 
     @Override

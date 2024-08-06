@@ -1,5 +1,6 @@
 package br.com.lgmanagement.lgManagement.infra.persistence.transacao;
 
+import br.com.lgmanagement.lgManagement.domain.entities.PagamentoType;
 import br.com.lgmanagement.lgManagement.domain.entities.TransacaoStatus;
 import br.com.lgmanagement.lgManagement.domain.entities.TransacaoType;
 import br.com.lgmanagement.lgManagement.infra.persistence.funcionario.FuncionarioEntity;
@@ -34,6 +35,9 @@ public class TransacaoEntity implements ITransacaoEntity {
     @Enumerated(EnumType.STRING)
     private TransacaoType transacaoType;
 
+    @Enumerated(EnumType.STRING)
+    private PagamentoType pagamentoType;
+
     @CreatedDate
     private LocalDateTime createdAt;
 
@@ -56,12 +60,14 @@ public class TransacaoEntity implements ITransacaoEntity {
     public TransacaoEntity(
             List<ItemEntity> itens,
             TransacaoStatus transacaoStatus,
-            TransacaoType transacaoType
+            TransacaoType transacaoType,
+            PagamentoType pagamentoType
     ) {
         this.id = UUID.randomUUID().toString();
         this.itens = itens;
         this.transacaoStatus = transacaoStatus;
         this.transacaoType = transacaoType;
+        this.pagamentoType = pagamentoType;
     }
 
     @Override
@@ -117,6 +123,14 @@ public class TransacaoEntity implements ITransacaoEntity {
     @Override
     public TransacaoType getTransacaoType() {
         return this.transacaoType;
+    }
+
+    public PagamentoType getPagamentoType() {
+        return pagamentoType;
+    }
+
+    public void setPagamentoType(PagamentoType pagamentoType) {
+        this.pagamentoType = pagamentoType;
     }
 
     @Override
@@ -180,6 +194,7 @@ public class TransacaoEntity implements ITransacaoEntity {
                 ", total=" + total +
                 ", transacaoStatus=" + transacaoStatus +
                 ", transacaoType=" + transacaoType +
+                ", pagamentoType=" + pagamentoType +
                 ", createdAt=" + createdAt +
                 ", updatedAt=" + updatedAt +
                 ", scheduledAt=" + scheduledAt +

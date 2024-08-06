@@ -1,5 +1,6 @@
 package br.com.lgmanagement.lgManagement.domain.entities.movimentacao;
 
+import br.com.lgmanagement.lgManagement.domain.entities.TransacaoType;
 import br.com.lgmanagement.lgManagement.domain.entities.caixa.Caixa;
 
 import java.math.BigDecimal;
@@ -10,6 +11,7 @@ public class Movimentacao {
 
     private String id;
     private BigDecimal valor;
+    private TransacaoType transacaoType;
     private LocalDateTime createdAt;
     private Caixa caixa;
 
@@ -23,9 +25,16 @@ public class Movimentacao {
         this.caixa = caixa;
     }
 
-    public Movimentacao(String id, BigDecimal valor, LocalDateTime createdAt, Caixa caixa) {
+    public Movimentacao(
+            String id,
+            BigDecimal valor,
+            TransacaoType transacaoType,
+            LocalDateTime createdAt,
+            Caixa caixa
+    ) {
         this.id = id;
         this.valor = valor;
+        this.transacaoType = transacaoType;
         this.createdAt = createdAt;
         this.caixa = caixa;
     }
@@ -44,6 +53,14 @@ public class Movimentacao {
 
     public void setValor(BigDecimal valor) {
         this.valor = valor;
+    }
+
+    public TransacaoType getTransacaoType() {
+        return transacaoType;
+    }
+
+    public void setTransacaoType(TransacaoType transacaoType) {
+        this.transacaoType = transacaoType;
     }
 
     public LocalDateTime getCreatedAt() {
