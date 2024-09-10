@@ -23,6 +23,7 @@ public class PromocaoController {
     private final ActivePromotionInteractor activePromotionInteractor;
     private final DisablePromotionInteractor disablePromotionInteractor;
     private final ShowPromotionByIdInteractor showPromotionByIdInteractor;
+    private final DeletePromotionInteractor deletePromotionInteractor;
 
     public PromocaoController(
             ProdutoEntityMapper produtoEntityMapper,
@@ -31,7 +32,8 @@ public class PromocaoController {
             FindPromotionsByProductInteractor findPromotionsByProductInteractor,
             ActivePromotionInteractor activePromotionInteractor,
             DisablePromotionInteractor disablePromotionInteractor,
-            ShowPromotionByIdInteractor showPromotionByIdInteractor
+            ShowPromotionByIdInteractor showPromotionByIdInteractor,
+            DeletePromotionInteractor deletePromotionInteractor
     ) {
         this.produtoEntityMapper = produtoEntityMapper;
         this.createPromotionInteractor = createPromotionInteractor;
@@ -40,6 +42,7 @@ public class PromocaoController {
         this.activePromotionInteractor = activePromotionInteractor;
         this.disablePromotionInteractor = disablePromotionInteractor;
         this.showPromotionByIdInteractor = showPromotionByIdInteractor;
+        this.deletePromotionInteractor = deletePromotionInteractor;
     }
 
     @PostMapping("/create/{produtoId}")
@@ -97,5 +100,12 @@ public class PromocaoController {
         disablePromotionInteractor.disablePromotion(id);
         return ResponseEntity.status(HttpStatus.OK)
                 .body("Promoção desativada com sucesso.");
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> deletePromotion(@PathVariable("id") String id) {
+        deletePromotionInteractor.deletePromotion(id);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT)
+                .body("Promoção excluída com sucesso.");
     }
 }

@@ -46,6 +46,11 @@ public class PromocaoConfig {
     }
 
     @Bean
+    DeletePromotionInteractor deletePromotionInteractor(PromocaoGateway promocaoGateway) {
+        return new DeletePromotionInteractor(promocaoGateway);
+    }
+
+    @Bean
     PromocaoEntityMapper promocaoEntityMapper(
             ProdutoRepository produtoRepository,
             ProdutoEntityMapper produtoEntityMapper

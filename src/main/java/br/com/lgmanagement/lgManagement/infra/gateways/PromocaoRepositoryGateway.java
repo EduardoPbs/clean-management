@@ -139,6 +139,14 @@ public class PromocaoRepositoryGateway implements PromocaoGateway {
         return promocaoEntityMapper.toDomain(promocaoEntity);
     }
 
+    @Override
+    @Transactional
+    public Boolean deletePromotion(String id) {
+        PromocaoEntity promocaoEntity = promocaoEntityMapper.toEntity(showPromotionById(id));
+        promocaoRepository.delete(promocaoEntity);
+        return Boolean.TRUE;
+    }
+
     @Transactional
     @Scheduled(fixedRate = 3600000) // 1 hora
     public void handlePromotion() {
@@ -165,4 +173,5 @@ public class PromocaoRepositoryGateway implements PromocaoGateway {
             produtoRepository.save(produtoEntity);
         });
     }
+
 }
