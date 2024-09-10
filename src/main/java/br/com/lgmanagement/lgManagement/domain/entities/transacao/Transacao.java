@@ -14,6 +14,7 @@ import java.util.List;
 public class Transacao implements ITransacao {
 
     private String id;
+    private Integer code;
     private List<Item> itens;
     private BigDecimal total;
     private TransacaoStatus transacaoStatus;
@@ -39,6 +40,28 @@ public class Transacao implements ITransacao {
             Funcionario funcionario
     ) {
         this.id = id;
+        this.itens = itens;
+        this.transacaoStatus = transacaoStatus;
+        this.transacaoType = transacaoType;
+        this.pagamentoType = pagamentoType;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
+        this.funcionario = funcionario;
+    }
+
+    public Transacao(
+            String id,
+            Integer code,
+            List<Item> itens,
+            TransacaoStatus transacaoStatus,
+            TransacaoType transacaoType,
+            PagamentoType pagamentoType,
+            LocalDateTime createdAt,
+            LocalDateTime updatedAt,
+            Funcionario funcionario
+    ) {
+        this.id = id;
+        this.code = code;
         this.itens = itens;
         this.transacaoStatus = transacaoStatus;
         this.transacaoType = transacaoType;
@@ -96,6 +119,28 @@ public class Transacao implements ITransacao {
         this.total = total;
     }
 
+    public Transacao(
+            String id,
+            Integer code,
+            List<Item> itens,
+            TransacaoStatus transacaoStatus,
+            TransacaoType transacaoType,
+            PagamentoType pagamentoType,
+            LocalDateTime createdAt,
+            LocalDateTime scheduledAt,
+            BigDecimal total
+    ) {
+        this.id = id;
+        this.code = code;
+        this.itens = itens;
+        this.transacaoStatus = transacaoStatus;
+        this.transacaoType = transacaoType;
+        this.pagamentoType = pagamentoType;
+        this.createdAt = createdAt;
+        this.scheduledAt = scheduledAt;
+        this.total = total;
+    }
+
     @Override
     public void addProdutoToList(Item item) {
         this.itens.add(item);
@@ -129,6 +174,11 @@ public class Transacao implements ITransacao {
     @Override
     public String getId() {
         return this.id;
+    }
+
+    @Override
+    public Integer getCode() {
+        return code;
     }
 
     @Override

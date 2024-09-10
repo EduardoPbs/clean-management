@@ -109,6 +109,7 @@ public class PromocaoRepositoryGateway implements PromocaoGateway {
         PromocaoEntity promocaoEntity = promocaoRepository
                 .findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Promoção não encontrada."));
+
         promocaoEntity.active();
         promocaoEntity.getProdutoEntity().applyPromocao(promocaoEntity);
         return Boolean.TRUE;
@@ -120,8 +121,13 @@ public class PromocaoRepositoryGateway implements PromocaoGateway {
         PromocaoEntity promocaoEntity = promocaoRepository
                 .findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Promoção não encontrada."));
+        ProdutoEntity produtoEntity = produtoRepository
+                .findById(promocaoEntity.getProdutoEntity().getId())
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Promoção não encontrada."));
+
         promocaoEntity.disable();
         promocaoEntity.getProdutoEntity().applyPromocao(promocaoEntity);
+        produtoEntity.setValor(produtoEntity.getValorOriginal());
         return Boolean.TRUE;
     }
 
@@ -143,14 +149,17 @@ public class PromocaoRepositoryGateway implements PromocaoGateway {
                     .findById(promocaoEntity.getProdutoEntity().getId())
                     .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Produto não encontrado."));
 
-            if (promocaoEntity.getDataInicio().isBefore(LocalDateTime.now()) && !promocaoEntity.getAtivo()) {
-                promocaoEntity.setAtivo(Boolean.TRUE);
-                produtoEntity.applyPromocao(promocaoEntity);
-            }
+//            Ativando promocao que foi desativada manualmente a cada 1hora
+//            if (promocaoEntity.getDataInicio().isBefore(LocalDateTime.now()) && !promocaoEntity.getAtivo()) {
+//                promocaoEntity.setAtivo(Boolean.TRUE);
+//                produtoEntity.applyPromocao(promocaoEntity);
+//            }
 
             if (promocaoEntity.getDataFim().isBefore(LocalDateTime.now()) && promocaoEntity.getAtivo()) {
-                promocaoEntity.setAtivo(Boolean.FALSE);
-                produtoEntity.applyPromocao(promocaoEntity);
+//                promocaoEntity.setAtivo(Boolean.FALSE);
+//                produtoEntity.applyPromocao(promocaoEntity);
+                produtoEntity.setValor(produtoEntity.getValorOriginal());
+                promocaoRepository.delete(promocaoEntity);
             }
 
             produtoRepository.save(produtoEntity);

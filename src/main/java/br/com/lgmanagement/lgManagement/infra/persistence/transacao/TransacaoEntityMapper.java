@@ -52,6 +52,7 @@ public class TransacaoEntityMapper {
 
         TransacaoEntity transacaoEntity = new TransacaoEntity(
                 mercadoriaEntities,
+                transacao.getCode(),
                 transacao.getTransacaoStatus(),
                 transacao.getTransacaoType(),
                 transacao.getPagamentoType()
@@ -87,6 +88,7 @@ public class TransacaoEntityMapper {
 
         Transacao transacao = new Transacao(
                 transacaoEntity.getId(),
+                transacaoEntity.getCode(),
                 itemTransacoes,
                 transacaoEntity.getTransacaoStatus(),
                 transacaoEntity.getTransacaoType(),

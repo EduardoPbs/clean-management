@@ -24,6 +24,11 @@ public class TransacaoEntity implements ITransacaoEntity {
     @Id
     private String id;
 
+    @Transient
+    private static Integer codeCounter = 0;
+
+    private Integer code;
+
     @OneToMany(mappedBy = "transacao", cascade = CascadeType.ALL)
     private List<ItemEntity> itens;
 
@@ -53,6 +58,7 @@ public class TransacaoEntity implements ITransacaoEntity {
 
     public TransacaoEntity() {
         this.id = UUID.randomUUID().toString();
+        this.code = incrementCode();
         this.createdAt = LocalDateTime.now();
         this.transacaoStatus = TransacaoStatus.PENDENTE;
     }
@@ -64,10 +70,30 @@ public class TransacaoEntity implements ITransacaoEntity {
             PagamentoType pagamentoType
     ) {
         this.id = UUID.randomUUID().toString();
+        this.code = incrementCode();
         this.itens = itens;
         this.transacaoStatus = transacaoStatus;
         this.transacaoType = transacaoType;
         this.pagamentoType = pagamentoType;
+    }
+
+    public TransacaoEntity(
+            List<ItemEntity> itens,
+            Integer code,
+            TransacaoStatus transacaoStatus,
+            TransacaoType transacaoType,
+            PagamentoType pagamentoType
+    ) {
+        this.id = UUID.randomUUID().toString();
+        this.code = code;
+        this.itens = itens;
+        this.transacaoStatus = transacaoStatus;
+        this.transacaoType = transacaoType;
+        this.pagamentoType = pagamentoType;
+    }
+
+    private synchronized static Integer incrementCode() {
+        return ++codeCounter;
     }
 
     @Override
@@ -103,6 +129,11 @@ public class TransacaoEntity implements ITransacaoEntity {
     @Override
     public String getId() {
         return this.id;
+    }
+
+    @Override
+    public Integer getCode() {
+        return code;
     }
 
     @Override

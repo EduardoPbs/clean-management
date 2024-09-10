@@ -13,6 +13,9 @@ import java.time.LocalDateTime;
 public record ShowTransacaoResponse(
         String id,
 
+        @JsonProperty("codigo")
+        Integer code,
+
         @JsonProperty("funcionario_id")
         String funcionarioId,
 
@@ -37,6 +40,7 @@ public record ShowTransacaoResponse(
     public ShowTransacaoResponse(Transacao transacao, String funcionarioId, ProdutoEntityMapper produtoEntityMapper) {
         this(
                 transacao.getId(),
+                transacao.getCode(),
                 funcionarioId,
                 transacao.getTransacaoStatus(),
                 transacao.getTransacaoType(),

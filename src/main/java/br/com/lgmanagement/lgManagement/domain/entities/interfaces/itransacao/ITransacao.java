@@ -25,6 +25,8 @@ public interface ITransacao {
 
     String getId();
 
+    Integer getCode();
+
     List<Item> getItens();
 
     BigDecimal getTotal();
