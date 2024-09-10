@@ -189,7 +189,7 @@ public class TransacaoController {
                             .findByCodigo(item.getProduto().getCodigo())
                             .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Produto não encontrado."));
 
-                    return new ShowItemResponse(item.getQuantidade(), produtoEntity);
+                    return new ShowItemResponse(item.getQuantidade(), produtoEntity, item.getValorUnitario());
                 }).collect(Collectors.toUnmodifiableList());
         return ResponseEntity.status(HttpStatus.OK)
                 .body(items);

@@ -18,7 +18,7 @@ public record ShowItemResponse(
         @JsonProperty("valor_unitario")
         BigDecimal valorUnitario
 ) {
-    public ShowItemResponse(BigDecimal quantidade, ProdutoEntity produtoEntity) {
-        this(produtoEntity.getId(), produtoEntity.getNome(), quantidade, produtoEntity.getValor());
+    public ShowItemResponse(BigDecimal quantidade, ProdutoEntity produtoEntity, BigDecimal valorUnitario) {
+        this(produtoEntity.getId(), produtoEntity.getNome(), quantidade, valorUnitario);
     }
 }
