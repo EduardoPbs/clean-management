@@ -3,6 +3,8 @@ package br.com.lgmanagement.lgManagement.infra.controller.caixa;
 import br.com.lgmanagement.lgManagement.application.usecases.caixa.*;
 import br.com.lgmanagement.lgManagement.application.usecases.movimentacao.*;
 import br.com.lgmanagement.lgManagement.domain.entities.TransacaoType;
+import br.com.lgmanagement.lgManagement.domain.entities.movimentacao.Movimentacao;
+import br.com.lgmanagement.lgManagement.domain.entities.transacao.Transacao;
 import br.com.lgmanagement.lgManagement.infra.controller.caixa.request.OpenCashierRequest;
 import br.com.lgmanagement.lgManagement.infra.controller.caixa.request.RegisterMovementRequest;
 import br.com.lgmanagement.lgManagement.infra.controller.caixa.response.ShowCaixaResponse;
@@ -13,6 +15,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Comparator;
 import java.util.List;
 
 @RestController
@@ -95,8 +98,9 @@ public class CaixaController {
 
     @GetMapping("/movements/all")
     public ResponseEntity<List<ShowMovementResponse>> showAllMovements() {
-        List<ShowMovementResponse> movementResponses = showAllMovementsInteractor.showAllMovements()
-                .stream().map(movimentacao -> new ShowMovementResponse(movimentacao.getValor(), movimentacao.getTransacaoType(), movimentacao.getCreatedAt()))
+        List<ShowMovementResponse> movementResponses = showAllMovementsInteractor.showAllMovements().stream()
+                .sorted(Comparator.comparing(Movimentacao::getCreatedAt).reversed())
+                .map(movimentacao -> new ShowMovementResponse(movimentacao.getValor(), movimentacao.getTransacaoType(), movimentacao.getCreatedAt()))
                 .toList();
         return ResponseEntity.status(HttpStatus.OK)
                 .body(movementResponses);

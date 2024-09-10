@@ -17,6 +17,7 @@ import br.com.lgmanagement.lgManagement.infra.persistence.funcionario.Funcionari
 import br.com.lgmanagement.lgManagement.infra.persistence.produto.ProdutoEntity;
 import br.com.lgmanagement.lgManagement.infra.persistence.produto.ProdutoEntityMapper;
 import br.com.lgmanagement.lgManagement.infra.persistence.produto.ProdutoRepository;
+import br.com.lgmanagement.lgManagement.infra.persistence.transacao.TransacaoEntity;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.FutureOrPresent;
 import org.springframework.http.HttpStatus;
@@ -25,6 +26,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDateTime;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -198,8 +200,9 @@ public class TransacaoController {
     @GetMapping("/type/{type}")
     public ResponseEntity<List<ShowTransacaoResponse>> findTransactionsByType(@PathVariable("type") TransacaoType transacaoType) {
         List<ShowTransacaoResponse> transacaoResponses = showTransactionsFacade
-                .allByType(transacaoType)
-                .stream().map(transacao -> {
+                .allByType(transacaoType).stream()
+                .sorted(Comparator.comparing(Transacao::getCreatedAt))
+                .map(transacao -> {
                     FuncionarioEntity funcionarioEntity = funcionarioRepository
                             .findByCpf(transacao.getFuncionario().getCpf()).get();
 
