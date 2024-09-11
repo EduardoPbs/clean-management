@@ -8,6 +8,7 @@ import br.com.lgmanagement.lgManagement.infra.persistence.funcionario.Funcionari
 import br.com.lgmanagement.lgManagement.infra.persistence.funcionario.FuncionarioEntityMapper;
 import br.com.lgmanagement.lgManagement.infra.persistence.funcionario.FuncionarioRepository;
 import br.com.lgmanagement.lgManagement.infra.persistence.produto.ProdutoEntityMapper;
+import br.com.lgmanagement.lgManagement.infra.persistence.transacao.TransacaoRepository;
 import br.com.lgmanagement.lgManagement.infra.persistence.usuario.UsuarioEntityMapper;
 import br.com.lgmanagement.lgManagement.infra.persistence.usuario.UsuarioRepository;
 import br.com.lgmanagement.lgManagement.infra.persistence.transacao.TransacaoEntityMapper;
@@ -46,6 +47,7 @@ public class FuncionarioConfig {
     FuncionarioRepositoryGateway funcionarioRepositoryGateway(
             FuncionarioRepository funcionarioRepository,
             UsuarioRepository usuarioRepository,
+            TransacaoRepository transacaoRepository,
             FuncionarioEntityMapper funcionarioEntityMapper,
             UsuarioRepositoryGateway usuarioRepositoryGateway,
             UsuarioEntityMapper usuarioEntityMapper
@@ -53,6 +55,7 @@ public class FuncionarioConfig {
         return new FuncionarioRepositoryGateway(
                 funcionarioRepository,
                 usuarioRepository,
+                transacaoRepository,
                 funcionarioEntityMapper,
                 usuarioRepositoryGateway,
                 usuarioEntityMapper

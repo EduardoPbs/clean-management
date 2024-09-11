@@ -5,6 +5,7 @@ import br.com.lgmanagement.lgManagement.domain.entities.funcionario.Funcionario;
 import br.com.lgmanagement.lgManagement.infra.persistence.funcionario.FuncionarioEntity;
 import br.com.lgmanagement.lgManagement.infra.persistence.funcionario.FuncionarioEntityMapper;
 import br.com.lgmanagement.lgManagement.infra.persistence.funcionario.FuncionarioRepository;
+import br.com.lgmanagement.lgManagement.infra.persistence.transacao.TransacaoRepository;
 import br.com.lgmanagement.lgManagement.infra.persistence.usuario.UsuarioEntity;
 import br.com.lgmanagement.lgManagement.infra.persistence.usuario.UsuarioEntityMapper;
 import br.com.lgmanagement.lgManagement.infra.persistence.usuario.UsuarioRepository;
@@ -21,6 +22,7 @@ public class FuncionarioRepositoryGateway implements FuncionarioGateway {
 
     private final FuncionarioRepository funcionarioRepository;
     private final UsuarioRepository usuarioRepository;
+    private final TransacaoRepository transacaoRepository;
     private final FuncionarioEntityMapper funcionarioEntityMapper;
     private final UsuarioRepositoryGateway usuarioRepositoryGateway;
     private final UsuarioEntityMapper usuarioEntityMapper;
@@ -28,12 +30,14 @@ public class FuncionarioRepositoryGateway implements FuncionarioGateway {
     public FuncionarioRepositoryGateway(
             FuncionarioRepository funcionarioRepository,
             UsuarioRepository usuarioRepository,
+            TransacaoRepository transacaoRepository,
             FuncionarioEntityMapper funcionarioEntityMapper,
             UsuarioRepositoryGateway usuarioRepositoryGateway,
             UsuarioEntityMapper usuarioEntityMapper
     ) {
         this.funcionarioRepository = funcionarioRepository;
         this.usuarioRepository = usuarioRepository;
+        this.transacaoRepository = transacaoRepository;
         this.funcionarioEntityMapper = funcionarioEntityMapper;
         this.usuarioRepositoryGateway = usuarioRepositoryGateway;
         this.usuarioEntityMapper = usuarioEntityMapper;
@@ -102,6 +106,7 @@ public class FuncionarioRepositoryGateway implements FuncionarioGateway {
                 .orElseThrow(() -> new ResponseStatusException(
                         HttpStatus.BAD_REQUEST, "Funcionário não encontrado."));
 
+        transacaoRepository.updateToDefaultUser(id);
         funcionarioRepository.delete(funcionarioEntity);
         usuarioRepositoryGateway.deletarUsuario(funcionarioEntity.getUsuarioEntity().getId());
     }

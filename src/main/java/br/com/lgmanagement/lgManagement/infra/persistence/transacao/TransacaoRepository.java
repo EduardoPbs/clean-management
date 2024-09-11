@@ -4,6 +4,7 @@ import br.com.lgmanagement.lgManagement.domain.entities.TransacaoStatus;
 import br.com.lgmanagement.lgManagement.domain.entities.TransacaoType;
 import br.com.lgmanagement.lgManagement.infra.persistence.funcionario.FuncionarioEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
@@ -32,4 +33,12 @@ public interface TransacaoRepository extends JpaRepository<TransacaoEntity, Stri
             AND DAY(t.createdAt) = :dia
             """)
     List<TransacaoEntity> findTransacoesByDate(@Param("mes") int mes, @Param("dia") int dia);
+
+    @Modifying
+    @Query("""
+            UPDATE TransacaoEntity t 
+            SET t.funcionarioEntity.id = '0'
+            WHERE t.funcionarioEntity.id = :funcionarioId
+            """)
+    void updateToDefaultUser(@Param("funcionarioId") String funcionarioId);
 }
