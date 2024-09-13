@@ -3,6 +3,7 @@ package br.com.lgmanagement.lgManagement.infra.controller.caixa;
 import br.com.lgmanagement.lgManagement.application.usecases.caixa.*;
 import br.com.lgmanagement.lgManagement.application.usecases.movimentacao.*;
 import br.com.lgmanagement.lgManagement.domain.entities.TransacaoType;
+import br.com.lgmanagement.lgManagement.domain.entities.caixa.Caixa;
 import br.com.lgmanagement.lgManagement.domain.entities.movimentacao.Movimentacao;
 import br.com.lgmanagement.lgManagement.domain.entities.transacao.Transacao;
 import br.com.lgmanagement.lgManagement.infra.controller.caixa.request.OpenCashierRequest;
@@ -90,7 +91,9 @@ public class CaixaController {
     @GetMapping("/all")
     public ResponseEntity<List<ShowCaixaResponse>> showAllCashiers() {
         List<ShowCaixaResponse> caixaResponses = showAllCaixasInteractor.showAllCaixas()
-                .stream().map(caixa -> new ShowCaixaResponse(caixa, caixaEntityMapper))
+                .stream()
+                .sorted(Comparator.comparing(Caixa::getAbertura))
+                .map(caixa -> new ShowCaixaResponse(caixa, caixaEntityMapper))
                 .toList();
         return ResponseEntity.status(HttpStatus.OK)
                 .body(caixaResponses);
