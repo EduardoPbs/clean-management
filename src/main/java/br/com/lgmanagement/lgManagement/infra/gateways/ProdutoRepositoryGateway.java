@@ -59,6 +59,7 @@ public class ProdutoRepositoryGateway implements ProdutoGateway {
                 produto.getNome(),
                 produto.getCodigo(),
                 produto.getValor(),
+                produto.getValorCompra(),
                 produto.getCategorias(),
                 produto.getEstoque()
         );

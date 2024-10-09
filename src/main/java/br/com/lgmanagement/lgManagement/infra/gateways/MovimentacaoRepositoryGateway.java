@@ -46,6 +46,16 @@ public class MovimentacaoRepositoryGateway implements MovimentacaoGateway {
             caixaEntity.setValorAtual(caixaEntity.getValorAtual().add(movimentacaoEntity.getValor()));
         }
 
+//        Subtração do valor de caixa quando registrar ENTRADA de produtos.
+//        if (transacaoType.equals(TransacaoType.ENTRADA_PRODUTO)) {
+//            caixaEntity.setValorAtual(caixaEntity.getValorAtual().subtract(movimentacaoEntity.getValor()));
+//        }
+
+//        Subtração do valor de caixa quando registrar RETIRADA de produtos.
+//        if (transacaoType.equals(TransacaoType.RETIRADA_PRODUTO)) {
+//            caixaEntity.setValorAtual(caixaEntity.getValorAtual().subtract(movimentacaoEntity.getValor()));
+//        }
+
         movimentacaoEntity.setTransacaoType(transacaoType);
         movimentacaoEntity.setCaixa(caixaEntity);
         caixaRepository.save(caixaEntity);

@@ -29,6 +29,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Collectors;
 
 public class TransacaoRepositoryGateway implements TransacaoGateway {
@@ -218,6 +219,13 @@ public class TransacaoRepositoryGateway implements TransacaoGateway {
                 .findById(funcionarioId)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Funcionário não encontrado."));
 
+        var totalRef = new Object() {
+            AtomicReference<BigDecimal> totalOfItems = new AtomicReference<>(new BigDecimal("0"));
+        };
+
+        BigDecimal totalDeTodosOsItens = calcularTotal(itens, transacaoType);
+        totalRef.totalOfItems.set(totalDeTodosOsItens);
+
         List<ItemEntity> itemTransacaoEntities = itens
                 .stream().map(itemTransacao -> {
                     ProdutoEntity produtoEntity = produtoEntityMapper
@@ -227,6 +235,25 @@ public class TransacaoRepositoryGateway implements TransacaoGateway {
                             .findByCodigo(produtoEntity.getCodigo())
                             .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Produto não encontrado."));
 
+                    if (transacaoType.equals(TransacaoType.ENTRADA_PRODUTO)) {
+                        produtoFound.setEstoque(produtoFound.getEstoque().add(itemTransacao.getQuantidade()));
+                        return new ItemEntity(
+                                itemTransacao.getQuantidade(),
+                                produtoFound,
+                                newTransacaoEntity,
+                                true
+                        );
+                    }
+
+                    if (transacaoType.equals(TransacaoType.RETIRADA_PRODUTO)
+                            && itemTransacao.getQuantidade().compareTo(produtoFound.getEstoque()) <= 0) {
+                        produtoFound.setEstoque(produtoFound.getEstoque().subtract(itemTransacao.getQuantidade()));
+                    }
+
+                    if (transacaoType.equals(TransacaoType.VENDA)) {
+                        produtoFound.setEstoque(produtoFound.getEstoque().subtract(itemTransacao.getQuantidade()));
+                    }
+
                     return new ItemEntity(
                             itemTransacao.getQuantidade(),
                             produtoFound,
@@ -235,22 +262,12 @@ public class TransacaoRepositoryGateway implements TransacaoGateway {
                 })
                 .collect(Collectors.toUnmodifiableList());
 
-        BigDecimal totalOfItems = itens.stream()
-                .map(item -> {
-                    ProdutoEntity produtoFound = produtoRepository
-                            .findByCodigo(item.getProduto().getCodigo())
-                            .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Produto não encontrado."));
-
-                    return item.getQuantidade().multiply(produtoFound.getValor());
-                })
-                .reduce(BigDecimal.ZERO, BigDecimal::add);
-
         movimentacaoRepositoryGateway
-                .registerMovement(totalOfItems, caixaRepositoryGateway.showCaixa(), transacaoType);
+                .registerMovement(totalRef.totalOfItems.get(), caixaRepositoryGateway.showCaixa(), transacaoType);
 
         newTransacaoEntity.setPagamentoType(pagamentoType);
         newTransacaoEntity.setItens(itemTransacaoEntities);
-        newTransacaoEntity.setTotal(totalOfItems);
+        newTransacaoEntity.setTotal(totalRef.totalOfItems.get());
         newTransacaoEntity.setFuncionarioEntity(funcionarioEntity);
         newTransacaoEntity.setTransacaoType(transacaoType);
 
@@ -279,4 +296,22 @@ public class TransacaoRepositoryGateway implements TransacaoGateway {
                     });
         }
     }
+
+    private BigDecimal calcularTotal(List<Item> itens, TransacaoType transacaoType) {
+        return itens.stream()
+                .map(item -> {
+                    final ProdutoEntity produtoFound = produtoRepository
+                            .findByCodigo(item.getProduto().getCodigo())
+                            .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Produto não encontrado."));
+
+                    if (transacaoType == TransacaoType.ENTRADA_PRODUTO) {
+                        return item.getQuantidade().multiply(produtoFound.getValorCompra());
+                    } else {
+                        return item.getQuantidade().multiply(produtoFound.getValor());
+                    }
+                })
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+    }
 }
+
+

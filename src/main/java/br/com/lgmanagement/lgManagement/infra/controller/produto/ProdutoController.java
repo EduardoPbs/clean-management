@@ -86,6 +86,7 @@ public class ProdutoController {
         produtoBuilder.includeValor(updateProdutoRequest.valor());
         produtoBuilder.includeCategorias(updateProdutoRequest.categorias());
         produtoBuilder.includeEstoque(updateProdutoRequest.estoque());
+        produtoBuilder.includeValorCompra(updateProdutoRequest.valorCompra());
 
         ProdutoEntity produtoEntity = produtoEntityMapper.toEntity(
                 updateProdutoInteractor.updateProduto(id, produto));

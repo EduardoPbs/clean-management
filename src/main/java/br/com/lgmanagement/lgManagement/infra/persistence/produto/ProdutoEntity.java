@@ -25,6 +25,7 @@ public class ProdutoEntity implements IProdutoEntity {
     private String nome;
     private BigDecimal valor;
     private BigDecimal valorOriginal;
+    private BigDecimal valorCompra;
     private Boolean ativo;
 
     @Column(unique = true)
@@ -48,7 +49,8 @@ public class ProdutoEntity implements IProdutoEntity {
             BigDecimal valor,
             List<Categoria> categorias,
             BigDecimal estoque,
-            Boolean ativo
+            Boolean ativo,
+            BigDecimal valorCompra
     ) {
         this.id = UUID.randomUUID().toString();
         this.nome = nome;
@@ -58,6 +60,7 @@ public class ProdutoEntity implements IProdutoEntity {
         this.categorias = categorias;
         this.estoque = estoque;
         this.valorOriginal = valor;
+        this.valorCompra = valorCompra;
     }
 
     public ProdutoEntity(
@@ -68,7 +71,8 @@ public class ProdutoEntity implements IProdutoEntity {
             List<Categoria> categorias,
             BigDecimal estoque,
             Boolean ativo,
-            BigDecimal valorOriginal
+            BigDecimal valorOriginal,
+            BigDecimal valorCompra
     ) {
         this.id = id;
         this.nome = nome;
@@ -78,6 +82,7 @@ public class ProdutoEntity implements IProdutoEntity {
         this.categorias = categorias;
         this.estoque = estoque;
         this.valorOriginal = valorOriginal;
+        this.valorCompra = valorCompra;
     }
 
     public Boolean applyPromocao(PromocaoEntity promocaoEntity) {
@@ -123,6 +128,7 @@ public class ProdutoEntity implements IProdutoEntity {
             String nome,
             String codigo,
             BigDecimal valor,
+            BigDecimal valorCompra,
             List<Categoria> categorias,
             BigDecimal estoque
     ) {
@@ -137,6 +143,10 @@ public class ProdutoEntity implements IProdutoEntity {
         if (valor != null) {
             this.setValor(valor);
             this.setValorOriginal(valor);
+        }
+
+        if (valorCompra != null) {
+            this.setValorCompra(valorCompra);
         }
 
         if (categorias != null) {
@@ -188,6 +198,15 @@ public class ProdutoEntity implements IProdutoEntity {
 
     public BigDecimal getValorOriginal() {
         return this.valorOriginal;
+    }
+
+
+    public BigDecimal getValorCompra() {
+        return valorCompra;
+    }
+
+    public void setValorCompra(BigDecimal valorCompra) {
+        this.valorCompra = valorCompra;
     }
 
     public Boolean getAtivo() {

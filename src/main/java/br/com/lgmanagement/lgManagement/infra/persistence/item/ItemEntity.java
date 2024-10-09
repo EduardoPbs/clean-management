@@ -45,6 +45,23 @@ public class ItemEntity implements IItemTransacaoEntity {
 
     public ItemEntity(
             BigDecimal quantidade,
+            ProdutoEntity produto,
+            TransacaoEntity transacao,
+            Boolean isEntrance
+    ) {
+        this.id = UUID.randomUUID().toString();
+        if (isEntrance) {
+            this.valorUnitario = produto.getValorCompra();
+        } else {
+            this.valorUnitario = produto.getValor();
+        }
+        this.quantidade = quantidade;
+        this.produto = produto;
+        this.transacao = transacao;
+    }
+
+    public ItemEntity(
+            BigDecimal quantidade,
             ProdutoEntity produto
     ) {
         this.id = UUID.randomUUID().toString();

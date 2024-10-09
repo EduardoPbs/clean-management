@@ -1,6 +1,7 @@
 package br.com.lgmanagement.lgManagement.infra.controller.produto.request;
 
 import br.com.lgmanagement.lgManagement.domain.entities.Categoria;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
@@ -28,6 +29,10 @@ public record CreateProdutoRequest(
         BigDecimal estoque,
 
         @NotNull(message = "Ativo é obrigatório.")
-        Boolean ativo
+        Boolean ativo,
+
+        @NotNull(message = "Valor de compra é obrigatório.")
+        @JsonProperty("valor_compra")
+        BigDecimal valorCompra
 ) {
 }

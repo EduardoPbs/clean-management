@@ -12,6 +12,7 @@ public record ShowProdutoResponse(
         String codigo,
         BigDecimal valor,
         BigDecimal valorOriginal,
+        BigDecimal valorCompra,
         List<Categoria> categorias,
         BigDecimal estoque,
         Boolean ativo
@@ -23,6 +24,7 @@ public record ShowProdutoResponse(
                 produtoEntity.getCodigo(),
                 produtoEntity.getValor(),
                 produtoEntity.getValorOriginal(),
+                produtoEntity.getValorCompra(),
                 produtoEntity.getCategorias(),
                 produtoEntity.getEstoque(),
                 produtoEntity.getAtivo()

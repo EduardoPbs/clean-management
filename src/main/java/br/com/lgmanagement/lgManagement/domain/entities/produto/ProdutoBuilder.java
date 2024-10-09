@@ -12,7 +12,7 @@ public class ProdutoBuilder {
     private Produto produto;
 
     public Produto withNomeAndCodigo(String nome, String codigo) {
-        this.produto = new Produto(nome, codigo, BigDecimal.ZERO, BigDecimal.ZERO, new ArrayList<>(), BigDecimal.ZERO, false);
+        this.produto = new Produto(nome, codigo, BigDecimal.ZERO, BigDecimal.ZERO, new ArrayList<>(), BigDecimal.ZERO, false, BigDecimal.ZERO);
         return this.produto;
     }
 
@@ -30,5 +30,9 @@ public class ProdutoBuilder {
 
     public void includePromocao(Promocao promocao) {
         this.produto.setPromocao(promocao);
+    }
+
+    public void includeValorCompra(BigDecimal valorCompra) {
+        this.produto.setValorCompra(valorCompra);
     }
 }

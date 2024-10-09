@@ -1,6 +1,7 @@
 package br.com.lgmanagement.lgManagement.infra.controller.produto.request;
 
 import br.com.lgmanagement.lgManagement.domain.entities.Categoria;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.Pattern;
 
 import java.math.BigDecimal;
@@ -13,6 +14,7 @@ public record UpdateProdutoRequest(
         String codigo,
         BigDecimal valor,
         List<Categoria> categorias,
-        BigDecimal estoque
+        BigDecimal estoque,
+        BigDecimal valorCompra
 ) {
 }

@@ -17,7 +17,6 @@ import br.com.lgmanagement.lgManagement.infra.persistence.funcionario.Funcionari
 import br.com.lgmanagement.lgManagement.infra.persistence.produto.ProdutoEntity;
 import br.com.lgmanagement.lgManagement.infra.persistence.produto.ProdutoEntityMapper;
 import br.com.lgmanagement.lgManagement.infra.persistence.produto.ProdutoRepository;
-import br.com.lgmanagement.lgManagement.infra.persistence.transacao.TransacaoEntity;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.FutureOrPresent;
 import org.springframework.http.HttpStatus;
@@ -80,14 +79,34 @@ public class TransacaoController {
     @PostMapping("/procurements")
     public ResponseEntity<String> registerProcurement(@RequestBody @Valid CreateTransacaoRequest createTransacaoRequest) {
         List<Item> itens = requestItemToDomain(createTransacaoRequest.itens());
-        /**
-         * Adicionar reposicao de estoque de produtos.
-         */
+
         Transacao transacao = createTransactionFacade
                 .create(itens, createTransacaoRequest.funcionarioId(), PagamentoType.NAO_DEFINIDO, TransacaoType.COMPRA);
 
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body("Compra cadastrada com sucesso. " + transacao.getId());
+    }
+
+    @PostMapping("/stock/entrance")
+    public ResponseEntity<String> registerStockEntrance(@RequestBody @Valid CreateTransacaoRequest createTransacaoRequest) {
+        List<Item> itens = requestItemToDomain(createTransacaoRequest.itens());
+
+        Transacao transacao = createTransactionFacade
+                .create(itens, createTransacaoRequest.funcionarioId(), PagamentoType.NAO_DEFINIDO, TransacaoType.ENTRADA_PRODUTO);
+
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body("Entrada cadastrada com sucesso. " + transacao.getId());
+    }
+
+    @PostMapping("/stock/pullout")
+    public ResponseEntity<String> registerStockPullout(@RequestBody @Valid CreateTransacaoRequest createTransacaoRequest) {
+        List<Item> itens = requestItemToDomain(createTransacaoRequest.itens());
+
+        Transacao transacao = createTransactionFacade
+                .create(itens, createTransacaoRequest.funcionarioId(), PagamentoType.NAO_DEFINIDO, TransacaoType.RETIRADA_PRODUTO);
+
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body("Retirada cadastrada com sucesso. " + transacao.getId());
     }
 
     @PostMapping("/sales")

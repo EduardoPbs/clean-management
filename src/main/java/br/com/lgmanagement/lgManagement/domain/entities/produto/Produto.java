@@ -14,6 +14,7 @@ public class Produto implements IProduto {
     private String nome;
     private BigDecimal valor;
     private BigDecimal valorOriginal;
+    private BigDecimal valorCompra;
     private Boolean ativo;
     private String codigo;
     private List<Categoria> categorias;
@@ -30,7 +31,8 @@ public class Produto implements IProduto {
             BigDecimal valorOriginal,
             List<Categoria> categorias,
             BigDecimal estoque,
-            Boolean ativo
+            Boolean ativo,
+            BigDecimal valorCompra
     ) {
 
         if (valor.compareTo(BigDecimal.ZERO) < 0) {
@@ -41,6 +43,10 @@ public class Produto implements IProduto {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Estoque não pode ser menor ou igual a 0.00.");
         }
 
+        if (valorCompra.compareTo(BigDecimal.ZERO) < 0) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Valor de compra não pode ser menor ou igual a 0.00.");
+        }
+
         this.nome = nome;
         this.valor = valor;
         this.valorOriginal = valorOriginal;
@@ -48,6 +54,7 @@ public class Produto implements IProduto {
         this.codigo = codigo;
         this.categorias = categorias;
         this.estoque = estoque;
+        this.valorCompra = valorCompra;
     }
 
     @Override
@@ -82,6 +89,14 @@ public class Produto implements IProduto {
 
     public void setValorOriginal(BigDecimal valorOriginal) {
         this.valorOriginal = valorOriginal;
+    }
+
+    public BigDecimal getValorCompra() {
+        return valorCompra;
+    }
+
+    public void setValorCompra(BigDecimal valorCompra) {
+        this.valorCompra = valorCompra;
     }
 
     public Boolean getAtivo() {

@@ -26,7 +26,8 @@ public class ProdutoEntityMapper {
                     produto.getValor(),
                     produto.getCategorias(),
                     produto.getEstoque(),
-                    produto.getAtivo()
+                    produto.getAtivo(),
+                    produto.getValorCompra()
             );
         }
 
@@ -38,7 +39,8 @@ public class ProdutoEntityMapper {
                 produto.getCategorias(),
                 produto.getEstoque(),
                 produto.getAtivo(),
-                produto.getValorOriginal()
+                produto.getValorOriginal(),
+                produto.getValorCompra()
         );
     }
 
@@ -53,7 +55,8 @@ public class ProdutoEntityMapper {
                     mercadoriaRequest.valor(),
                     mercadoriaRequest.categorias(),
                     mercadoriaRequest.estoque(),
-                    mercadoriaRequest.ativo()
+                    mercadoriaRequest.ativo(),
+                    mercadoriaRequest.valorCompra()
             );
         }
 
@@ -65,7 +68,8 @@ public class ProdutoEntityMapper {
                 mercadoriaRequest.categorias(),
                 mercadoriaRequest.estoque(),
                 existsMercadoria.get().getAtivo(),
-                existsMercadoria.get().getValorOriginal()
+                existsMercadoria.get().getValorOriginal(),
+                existsMercadoria.get().getValorCompra()
         );
     }
 
@@ -77,7 +81,8 @@ public class ProdutoEntityMapper {
                 produtoEntity.getValorOriginal(),
                 produtoEntity.getCategorias(),
                 produtoEntity.getEstoque(),
-                produtoEntity.getAtivo()
+                produtoEntity.getAtivo(),
+                produtoEntity.getValorCompra()
         );
     }
 
@@ -89,7 +94,8 @@ public class ProdutoEntityMapper {
                 createProdutoRequest.valor(),
                 createProdutoRequest.categorias(),
                 createProdutoRequest.estoque(),
-                createProdutoRequest.ativo()
+                createProdutoRequest.ativo(),
+                createProdutoRequest.valorCompra()
         );
     }
 }
