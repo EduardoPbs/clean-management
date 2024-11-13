@@ -1,6 +1,7 @@
 package br.com.lgmanagement.lgManagement.infra.persistence.produto;
 
 import br.com.lgmanagement.lgManagement.domain.entities.Categoria;
+import br.com.lgmanagement.lgManagement.infra.persistence.estoque_minimo.EstoqueMinimoEntity;
 import br.com.lgmanagement.lgManagement.infra.persistence.interfaces.iproduto.IProdutoEntity;
 import br.com.lgmanagement.lgManagement.infra.persistence.promocao.PromocaoEntity;
 import jakarta.persistence.*;
@@ -11,7 +12,6 @@ import org.springframework.web.server.ResponseStatusException;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 @Table(name = "produtos")
@@ -39,6 +39,9 @@ public class ProdutoEntity implements IProdutoEntity {
 
     @Column(precision = 38, scale = 3)
     private BigDecimal estoque;
+
+    @OneToOne(mappedBy = "produtoEntity", cascade = CascadeType.ALL)
+    private EstoqueMinimoEntity estoqueMinimoEntity;
 
     public ProdutoEntity() {
     }
@@ -200,7 +203,6 @@ public class ProdutoEntity implements IProdutoEntity {
         return this.valorOriginal;
     }
 
-
     public BigDecimal getValorCompra() {
         return valorCompra;
     }
@@ -247,6 +249,14 @@ public class ProdutoEntity implements IProdutoEntity {
 
     public void setEstoque(BigDecimal estoque) {
         this.estoque = estoque;
+    }
+
+    public EstoqueMinimoEntity getEstoqueMinimoEntity() {
+        return estoqueMinimoEntity;
+    }
+
+    public void setEstoqueMinimoEntity(EstoqueMinimoEntity estoqueMinimoEntity) {
+        this.estoqueMinimoEntity = estoqueMinimoEntity;
     }
 
     @Override

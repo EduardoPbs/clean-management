@@ -5,6 +5,7 @@ import br.com.lgmanagement.lgManagement.application.facades.transacoes.ShowTrans
 import br.com.lgmanagement.lgManagement.application.gateways.transacao.TransacaoGateway;
 import br.com.lgmanagement.lgManagement.application.usecases.transacao.*;
 import br.com.lgmanagement.lgManagement.infra.gateways.CaixaRepositoryGateway;
+import br.com.lgmanagement.lgManagement.infra.gateways.EstoqueMinimoRepositoryGateway;
 import br.com.lgmanagement.lgManagement.infra.gateways.MovimentacaoRepositoryGateway;
 import br.com.lgmanagement.lgManagement.infra.gateways.TransacaoRepositoryGateway;
 import br.com.lgmanagement.lgManagement.infra.persistence.funcionario.FuncionarioRepository;
@@ -121,7 +122,8 @@ public class TransacaoConfig {
             ItemEntityMapper itemEntityMapper,
             ItemRepository itemRepository,
             MovimentacaoRepositoryGateway movimentacaoRepositoryGateway,
-            CaixaRepositoryGateway caixaRepositoryGateway
+            CaixaRepositoryGateway caixaRepositoryGateway,
+            EstoqueMinimoRepositoryGateway estoqueMinimoRepositoryGateway
     ) {
         return new TransacaoRepositoryGateway(
                 transacaoRepository,
@@ -132,7 +134,8 @@ public class TransacaoConfig {
                 itemEntityMapper,
                 itemRepository,
                 movimentacaoRepositoryGateway,
-                caixaRepositoryGateway
+                caixaRepositoryGateway,
+                estoqueMinimoRepositoryGateway
         );
     }
 

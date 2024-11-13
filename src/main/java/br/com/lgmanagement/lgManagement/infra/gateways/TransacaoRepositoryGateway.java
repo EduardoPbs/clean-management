@@ -43,6 +43,7 @@ public class TransacaoRepositoryGateway implements TransacaoGateway {
     private final ItemRepository itemRepository;
     private final MovimentacaoRepositoryGateway movimentacaoRepositoryGateway;
     private final CaixaRepositoryGateway caixaRepositoryGateway;
+    private final EstoqueMinimoRepositoryGateway estoqueMinimoRepositoryGateway;
 
     public TransacaoRepositoryGateway(
             TransacaoRepository transacaoRepository,
@@ -53,7 +54,9 @@ public class TransacaoRepositoryGateway implements TransacaoGateway {
             ItemEntityMapper itemEntityMapper,
             ItemRepository itemRepository,
             MovimentacaoRepositoryGateway movimentacaoRepositoryGateway,
-            CaixaRepositoryGateway caixaRepositoryGateway
+            CaixaRepositoryGateway caixaRepositoryGateway,
+            EstoqueMinimoRepositoryGateway estoqueMinimoRepositoryGateway
+
     ) {
         this.transacaoRepository = transacaoRepository;
         this.transacaoEntityMapper = transacaoEntityMapper;
@@ -64,6 +67,7 @@ public class TransacaoRepositoryGateway implements TransacaoGateway {
         this.itemRepository = itemRepository;
         this.movimentacaoRepositoryGateway = movimentacaoRepositoryGateway;
         this.caixaRepositoryGateway = caixaRepositoryGateway;
+        this.estoqueMinimoRepositoryGateway = estoqueMinimoRepositoryGateway;
     }
 
     @Override
@@ -161,7 +165,7 @@ public class TransacaoRepositoryGateway implements TransacaoGateway {
         }
 
         transacaoEntity.setTransacaoStatus(TransacaoStatus.FINALIZADO);
-        discountProductStockIfTypeVENDA(transacaoEntity);
+//        discountProductStockIfTypeVENDA(transacaoEntity);
         transacaoRepository.save(transacaoEntity);
     }
 
@@ -237,6 +241,7 @@ public class TransacaoRepositoryGateway implements TransacaoGateway {
 
                     if (transacaoType.equals(TransacaoType.ENTRADA_PRODUTO)) {
                         produtoFound.setEstoque(produtoFound.getEstoque().add(itemTransacao.getQuantidade()));
+                        estoqueMinimoRepositoryGateway.verifyEstoqueMinimo(produtoFound.getId());
                         return new ItemEntity(
                                 itemTransacao.getQuantidade(),
                                 produtoFound,
@@ -253,6 +258,8 @@ public class TransacaoRepositoryGateway implements TransacaoGateway {
                     if (transacaoType.equals(TransacaoType.VENDA)) {
                         produtoFound.setEstoque(produtoFound.getEstoque().subtract(itemTransacao.getQuantidade()));
                     }
+
+                    estoqueMinimoRepositoryGateway.verifyEstoqueMinimo(produtoFound.getId());
 
                     return new ItemEntity(
                             itemTransacao.getQuantidade(),
