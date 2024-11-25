@@ -1,5 +1,6 @@
 package br.com.lgmanagement.lgManagement.infra.persistence.movimentacao;
 
+import br.com.lgmanagement.lgManagement.domain.entities.TransacaoType;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -20,4 +21,6 @@ public interface MovimentacaoRepository extends JpaRepository<MovimentacaoEntity
             AND DAY(m.createdAt) = :dia
             """)
     List<MovimentacaoEntity> findByDate(@Param("mes") int mes, @Param("dia") int dia);
+
+    List<MovimentacaoEntity> findByTransacaoType(TransacaoType transacaoType);
 }

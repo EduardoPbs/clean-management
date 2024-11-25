@@ -5,7 +5,6 @@ import br.com.lgmanagement.lgManagement.application.usecases.movimentacao.*;
 import br.com.lgmanagement.lgManagement.domain.entities.TransacaoType;
 import br.com.lgmanagement.lgManagement.domain.entities.caixa.Caixa;
 import br.com.lgmanagement.lgManagement.domain.entities.movimentacao.Movimentacao;
-import br.com.lgmanagement.lgManagement.domain.entities.transacao.Transacao;
 import br.com.lgmanagement.lgManagement.infra.controller.caixa.request.OpenCashierRequest;
 import br.com.lgmanagement.lgManagement.infra.controller.caixa.request.RegisterMovementRequest;
 import br.com.lgmanagement.lgManagement.infra.controller.caixa.response.ShowCaixaResponse;
@@ -33,6 +32,7 @@ public class CaixaController {
     private final FindCaixaByDateInteractor findCaixaByDateInteractor;
     private final FindMovementsByMonthInteractor findMovementsByMonthInteractor;
     private final FindMovementsByDateInteractor findMovementsByDateInteractor;
+    private final ShowMovementsByTransacaoTypeInteractor showMovementsByTransacaoTypeInteractor;
     private final CaixaEntityMapper caixaEntityMapper;
 
     public CaixaController(
@@ -46,6 +46,7 @@ public class CaixaController {
             FindCaixaByDateInteractor findCaixaByDateInteractor,
             FindMovementsByMonthInteractor findMovementsByMonthInteractor,
             FindMovementsByDateInteractor findMovementsByDateInteractor,
+            ShowMovementsByTransacaoTypeInteractor showMovementsByTransacaoTypeInteractor,
             CaixaEntityMapper caixaEntityMapper
     ) {
         this.showCaixaInteractor = showCaixaInteractor;
@@ -58,6 +59,7 @@ public class CaixaController {
         this.findCaixaByDateInteractor = findCaixaByDateInteractor;
         this.findMovementsByMonthInteractor = findMovementsByMonthInteractor;
         this.findMovementsByDateInteractor = findMovementsByDateInteractor;
+        this.showMovementsByTransacaoTypeInteractor = showMovementsByTransacaoTypeInteractor;
         this.caixaEntityMapper = caixaEntityMapper;
     }
 
@@ -131,6 +133,14 @@ public class CaixaController {
                 .body(movementResponses);
     }
 
+    @GetMapping("/movements/{type}")
+    public ResponseEntity<List<ShowMovementResponse>> movementsByType(@PathVariable("type") TransacaoType transacaoType) {
+        List<ShowMovementResponse> movementResponses = showMovementsByTransacaoTypeInteractor.showMovementsByType(transacaoType)
+                .stream().map(movimentacao -> new ShowMovementResponse(movimentacao.getValor(), movimentacao.getTransacaoType(), movimentacao.getCreatedAt()))
+                .toList();
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(movementResponses);
+    }
 
     @PostMapping("/movement/{type}")
     public ResponseEntity<String> registerMovement(

@@ -94,4 +94,11 @@ public class MovimentacaoRepositoryGateway implements MovimentacaoGateway {
                 .collect(Collectors.toUnmodifiableList());
         return movimentacoes;
     }
+
+    @Override
+    public List<Movimentacao> findMovementsByTransacaoType(TransacaoType transacaoType) {
+        return movimentacaoRepository.findByTransacaoType(transacaoType).stream()
+                .map(movimentacaoEntity -> movimentacaoEntityMapper.toDomain(movimentacaoEntity))
+                .collect(Collectors.toUnmodifiableList());
+    }
 }

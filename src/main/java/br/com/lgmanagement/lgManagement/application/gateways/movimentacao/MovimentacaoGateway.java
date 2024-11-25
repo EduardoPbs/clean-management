@@ -16,4 +16,6 @@ public interface MovimentacaoGateway {
     List<Movimentacao> findMovementsByMonth(int month);
 
     List<Movimentacao> findMovementsByDate(int month, int day);
+
+    List<Movimentacao> findMovementsByTransacaoType(TransacaoType transacaoType);
 }

@@ -29,8 +29,13 @@ public class MovimentacaoConfig {
     }
 
     @Bean
-    FindMovementsByDateInteractor findMovementsByDateInteractor (MovimentacaoGateway movimentacaoGateway) {
+    FindMovementsByDateInteractor findMovementsByDateInteractor(MovimentacaoGateway movimentacaoGateway) {
         return new FindMovementsByDateInteractor(movimentacaoGateway);
+    }
+
+    @Bean
+    ShowMovementsByTransacaoTypeInteractor showMovementsByTransacaoTypeInteractor(MovimentacaoGateway movimentacaoGateway) {
+        return new ShowMovementsByTransacaoTypeInteractor(movimentacaoGateway);
     }
 
     @Bean
