@@ -14,7 +14,7 @@ public record CreateFuncionarioRequest(
         @NotBlank(message = "Nome é obrigatório.")
         String nome,
 
-        @Pattern(regexp = "^.{14}$", message = "CPF deve conter 14 caracteres.")
+        @Pattern(regexp = "^.{11}$", message = "CPF deve conter 11 caracteres.")
         @NotBlank
         String cpf,
 
